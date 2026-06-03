@@ -1,6 +1,7 @@
 backend:
   name: github
   repo: johncavpub/johncavpub.com
+  base_url: https://api.netlify.com
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
