@@ -8,6 +8,7 @@ type Opts = {
 	h?: number;
 	c?: Crop;
 	g?: "auto" | "face" | "center";
+	b?: string;
 };
 
 const buildTransform = (opts: Opts) => {
@@ -16,6 +17,7 @@ const buildTransform = (opts: Opts) => {
 	if (opts.h) parts.push(`h_${opts.h}`);
 	if (opts.c) parts.push(`c_${opts.c}`);
 	if (opts.g) parts.push(`g_${opts.g}`);
+	if (opts.b) parts.push(`b_${opts.b}`);
 	return parts.join(",");
 };
 

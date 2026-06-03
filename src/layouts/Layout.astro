@@ -28,7 +28,7 @@ const description = descriptionProp ?? siteDescription;
 
 const rawOgImage = ogImageProp ?? about?.data.headshot_image;
 const ogImageUrl = rawOgImage
-  ? imgUrl(rawOgImage, { w: 1200, h: 630, c: "fill", g: "auto" })
+  ? imgUrl(rawOgImage, { w: 1200, h: 630, c: "pad", b: "rgb:f8f5ee" })
   : undefined;
 ---
 
