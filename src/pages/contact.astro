@@ -1,0 +1,47 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getEntry } from "astro:content";
+
+const contactEntry = await getEntry("contact", "contact");
+const { Content } = await contactEntry.render();
+const contact = contactEntry.data;
+---
+
+<Layout title="Contact">
+  <main class="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
+    <header class="mb-8">
+      <h1 class="text-3xl font-semibold text-slate-900">{contact.title}</h1>
+      <p class="mt-2 text-sm text-slate-600">
+        {contact.intro}
+      </p>
+    </header>
+
+    <div class="max-w-2xl space-y-6">
+      <div>
+        <h2
+          class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500"
+        >
+          Email
+        </h2>
+        <a
+          href={`mailto:${contact.email}`}
+          class="mt-1 block text-lg font-medium text-slate-900 hover:text-slate-600"
+        >
+          {contact.email}
+        </a>
+      </div>
+
+      <div
+        class="prose prose-slate max-w-none text-base leading-relaxed text-slate-700"
+      >
+        <Content />
+      </div>
+
+      {
+        contact.response_time ? (
+          <p class="text-sm text-slate-600">{contact.response_time}</p>
+        ) : null
+      }
+    </div>
+  </main>
+</Layout>
