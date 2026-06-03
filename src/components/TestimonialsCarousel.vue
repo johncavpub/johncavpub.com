@@ -3,18 +3,18 @@
     <button
       @click="prev"
       type="button"
-      class="absolute -left-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-sm transition hover:border-slate-300 sm:inline-flex"
+      class="absolute -left-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full p-2 text-ink-faint transition hover:text-ink sm:inline-flex"
       aria-label="Previous testimonial"
     >
-      <span aria-hidden="true" class="text-lg leading-none">‹</span>
+      <span aria-hidden="true" class="text-2xl leading-none">‹</span>
     </button>
     <button
       @click="next"
       type="button"
-      class="absolute -right-4 top-1/2 z-10 hidden -translate-y-1/2 rounded-full border border-slate-200 bg-white p-2 text-slate-600 shadow-sm transition hover:border-slate-300 sm:inline-flex"
+      class="absolute -right-2 top-1/2 z-10 hidden -translate-y-1/2 rounded-full p-2 text-ink-faint transition hover:text-ink sm:inline-flex"
       aria-label="Next testimonial"
     >
-      <span aria-hidden="true" class="text-lg leading-none">›</span>
+      <span aria-hidden="true" class="text-2xl leading-none">›</span>
     </button>
 
     <div
@@ -22,25 +22,35 @@
       @touchstart="handleTouchStart"
       @touchmove="handleTouchMove"
       @touchend="handleTouchEnd"
-      class="relative flex justify-center overflow-hidden py-4"
-      style="min-height: 180px"
+      class="relative flex justify-center overflow-hidden py-6"
+      style="min-height: 240px"
     >
       <article
         v-for="(testimonial, index) in testimonials"
         :key="index"
         :style="getSlideStyle(index)"
-        class="absolute w-full max-w-[340px] rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-500 ease-out"
+        class="absolute w-full max-w-[420px] px-6 transition-all duration-500 ease-out"
       >
-        <p class="text-sm font-semibold text-slate-900">
-          {{ testimonial.author }}
-        </p>
-        <p class="mt-3 text-base leading-relaxed text-slate-700">
-          "{{ testimonial.quote }}"
-        </p>
+        <div class="text-center">
+          <span
+            class="block text-5xl leading-none text-ink-faint/70 font-serif"
+            aria-hidden="true"
+            >“</span
+          >
+          <p class="mt-2 text-lg sm:text-xl italic leading-relaxed text-ink">
+            {{ testimonial.quote }}
+          </p>
+          <p class="mt-6 text-xs uppercase tracking-[0.22em] text-ink-muted">
+            — {{ testimonial.author
+            }}<span v-if="testimonial.role" class="text-ink-faint">
+              , {{ testimonial.role }}</span
+            >
+          </p>
+        </div>
       </article>
     </div>
 
-    <div class="mt-6 flex items-center justify-center gap-2">
+    <div class="mt-8 flex items-center justify-center gap-2">
       <button
         v-for="(_, index) in testimonials"
         :key="`dot-${index}`"
@@ -48,10 +58,10 @@
         type="button"
         :class="
           active === index
-            ? 'w-6 bg-slate-900'
-            : 'w-2 bg-slate-300 hover:bg-slate-400'
+            ? 'w-6 bg-ink'
+            : 'w-1.5 bg-ink-faint/50 hover:bg-ink-faint'
         "
-        class="h-2 rounded-full transition-all"
+        class="h-1.5 rounded-full transition-all"
         :aria-label="`Go to testimonial ${index + 1}`"
       />
     </div>
@@ -84,7 +94,6 @@ function getSlideStyle(index) {
   const total = props.testimonials.length;
   let pos = index - active.value;
 
-  // Wrap around for infinite wheel
   if (pos > total / 2) pos -= total;
   if (pos < -total / 2) pos += total;
 
@@ -92,8 +101,8 @@ function getSlideStyle(index) {
   const isVisible = Math.abs(pos) <= Math.floor(visibleCount.value / 2);
 
   const offset = pos * 110;
-  const scale = isCenter ? 1 : 0.85;
-  const opacity = isCenter ? 1 : isVisible ? 0.6 : 0;
+  const scale = isCenter ? 1 : 0.92;
+  const opacity = isCenter ? 1 : isVisible ? 0.35 : 0;
   const zIndex = isCenter ? 10 : 10 - Math.abs(pos);
 
   return {

@@ -1,0 +1,54 @@
+---
+import { Icon } from "astro-icon/components";
+
+const { socials, email } = Astro.props;
+
+const iconMap: Record<string, string> = {
+  instagram: "cib:instagram",
+  tiktok: "cib:tiktok",
+};
+
+const getIconName = (label: string) => {
+  if (!label) return "mdi:link-variant";
+  const key = label.toLowerCase().replace(/\s+/g, "");
+  return iconMap[key] ?? "mdi:link-variant";
+};
+
+const year = new Date().getFullYear();
+---
+
+<div class="bg-ink text-paper">
+  <div class="mx-auto max-w-5xl px-6">
+    <div
+      class="flex flex-col items-center gap-6 border-t border-paper/10 py-10 text-center"
+    >
+      <div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm">
+        {
+          socials?.map((social: { label: string; url: string }) => (
+            <a
+              href={social.url}
+              target="_blank"
+              rel="noreferrer"
+              class="inline-flex items-center gap-2 text-paper/70 transition hover:text-paper"
+            >
+              <Icon name={getIconName(social.label)} class="h-4 w-4" />
+              <span>{social.label}</span>
+            </a>
+          ))
+        }
+        {
+          email ? (
+            <a
+              href={`mailto:${email}`}
+              class="inline-flex items-center gap-2 text-paper/70 transition hover:text-paper"
+            >
+              <Icon name="mdi:email-outline" class="h-4 w-4" />
+              <span>{email}</span>
+            </a>
+          ) : null
+        }
+      </div>
+      <p class="text-xs italic text-paper/40">© {year} John Cavanagh</p>
+    </div>
+  </div>
+</div>

@@ -9,10 +9,12 @@ const events = (await getCollection("events")).sort(
 ---
 
 <Layout title="Events">
-  <main class="mx-auto max-w-5xl px-6 py-10">
-    <header class="mb-8">
-      <h1 class="text-3xl font-semibold text-slate-900">Events</h1>
-      <p class="mt-2 text-sm text-slate-600">
+  <div class="mx-auto max-w-3xl px-6 pt-10 pb-20 sm:pt-16">
+    <header class="mb-10 text-center">
+      <h1 class="display-tight text-4xl sm:text-5xl font-medium text-ink">
+        Events
+      </h1>
+      <p class="mt-4 text-base italic text-ink-muted">
         Upcoming appearances and signings.
       </p>
     </header>
@@ -21,8 +23,10 @@ const events = (await getCollection("events")).sort(
       events.length ? (
         <EventsList events={events} />
       ) : (
-        <p class="text-sm text-slate-600">Event details will be posted soon.</p>
+        <p class="text-center text-base italic text-ink-muted">
+          Event details will be posted soon.
+        </p>
       )
     }
-  </main>
+  </div>
 </Layout>

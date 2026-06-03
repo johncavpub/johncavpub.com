@@ -8,40 +8,42 @@ const contact = contactEntry.data;
 ---
 
 <Layout title="Contact">
-  <main class="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
-    <header class="mb-8">
-      <h1 class="text-3xl font-semibold text-slate-900">{contact.title}</h1>
-      <p class="mt-2 text-sm text-slate-600">
+  <div class="mx-auto max-w-2xl px-6 pt-10 pb-20 sm:pt-16">
+    <header class="mb-10 text-center">
+      <h1 class="display-tight text-4xl sm:text-5xl font-medium text-ink">
+        {contact.title}
+      </h1>
+      <p class="mt-4 text-base italic text-ink-muted">
         {contact.intro}
       </p>
     </header>
 
-    <div class="max-w-2xl space-y-6">
-      <div>
-        <h2
-          class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500"
-        >
-          Email
-        </h2>
+    <div class="space-y-8">
+      <div
+        class="border-y border-rule py-8 text-center"
+      >
+        <p class="eyebrow">Email</p>
         <a
           href={`mailto:${contact.email}`}
-          class="mt-1 block text-lg font-medium text-slate-900 hover:text-slate-600"
+          class="mt-3 inline-block display-tight text-xl sm:text-2xl font-medium text-ink hover:text-accent transition"
         >
           {contact.email}
         </a>
       </div>
 
       <div
-        class="prose prose-slate max-w-none text-base leading-relaxed text-slate-700"
+        class="prose prose-slate max-w-none text-center text-base leading-relaxed text-ink-muted"
       >
         <Content />
       </div>
 
       {
         contact.response_time ? (
-          <p class="text-sm text-slate-600">{contact.response_time}</p>
+          <p class="text-center text-sm italic text-ink-faint">
+            {contact.response_time}
+          </p>
         ) : null
       }
     </div>
-  </main>
+  </div>
 </Layout>

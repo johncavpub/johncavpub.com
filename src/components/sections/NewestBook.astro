@@ -1,23 +1,104 @@
 ---
+import { imgUrl, imgSrcset } from "../../lib/cloudinary";
+
 const { books } = Astro.props;
+
+const now = Date.now();
+
+const annotated = (books ?? []).map((book) => {
+  const ts = book.data.publish_date
+    ? Date.parse(book.data.publish_date)
+    : null;
+  return { book, ts, comingSoon: ts !== null && ts > now };
+});
+
+const released = annotated
+  .filter((b) => !b.comingSoon)
+  .sort((a, b) => (b.ts ?? 0) - (a.ts ?? 0));
+const upcoming = annotated
+  .filter((b) => b.comingSoon)
+  .sort((a, b) => (a.ts ?? 0) - (b.ts ?? 0));
+
+const ordered = [...released, ...upcoming];
+const count = ordered.length;
+const single = count === 1;
+
+const gridCols =
+  count === 2
+    ? "grid-cols-2"
+    : count === 3
+      ? "grid-cols-2 sm:grid-cols-3"
+      : "grid-cols-2 lg:grid-cols-4";
+
+const formatDate = (d?: string) =>
+  d
+    ? new Date(d).toLocaleDateString("en-US", {
+        month: "long",
+        year: "numeric",
+      })
+    : null;
 ---
 
-<section class="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
-  {
-    books?.length ? (
-      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {books.map((book) => (
-          <a href={`/books/${book.slug}`} key={book.id} class="group block">
-            <img
-              class="w-full rounded-md border border-slate-200 shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-md"
-              src={book.data.cover_image}
-              alt={`${book.data.title} cover`}
-            />
+{
+  count ? (
+    <section class="mx-auto max-w-5xl px-6 pt-4 pb-16 sm:pb-20">
+      <div class="mb-10 text-center">
+        <p class="eyebrow">{single ? "Latest book" : "Featured books"}</p>
+      </div>
+      <div
+        class:list={[
+          "grid gap-10 sm:gap-12",
+          single ? "grid-cols-1 justify-items-center" : gridCols,
+        ]}
+      >
+        {ordered.map(({ book, comingSoon }) => (
+          <a
+            href={`/books/${book.slug}`}
+            key={book.id}
+            class:list={[
+              "group block text-center",
+              single ? "max-w-xs" : "",
+            ]}
+          >
+            <div class="relative overflow-hidden bg-paper-deep aspect-[4/5]">
+              {book.data.cover_image ? (
+                <img
+                  class="block h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.02]"
+                  src={imgUrl(book.data.cover_image, { w: 600, c: "fill" })}
+                  srcset={imgSrcset(book.data.cover_image, [400, 600, 800, 1200], { c: "fill" })}
+                  sizes="(min-width: 1024px) 320px, (min-width: 640px) 33vw, 50vw"
+                  width="600"
+                  height="750"
+                  loading="lazy"
+                  decoding="async"
+                  alt={`${book.data.title} cover`}
+                />
+              ) : (
+                <div class="flex h-full w-full items-center justify-center text-center">
+                  <span class="px-4 text-xs italic text-ink-faint">
+                    Cover coming soon
+                  </span>
+                </div>
+              )}
+              {comingSoon ? (
+                <span class="absolute left-3 top-3 rounded-full bg-paper/95 px-3 py-1 text-[0.625rem] font-semibold uppercase tracking-[0.18em] text-accent shadow-sm">
+                  Coming soon
+                </span>
+              ) : null}
+            </div>
+            <h3
+              class="mt-5 display-tight text-lg sm:text-xl font-medium text-ink group-hover:text-accent transition text-balance leading-snug"
+            >
+              {book.data.title}
+            </h3>
+            {formatDate(book.data.publish_date) ? (
+              <p class="mt-1 text-xs italic text-ink-faint">
+                {formatDate(book.data.publish_date)}
+              </p>
+            ) : null}
           </a>
         ))}
       </div>
-    ) : (
-      <p class="text-sm text-slate-500">No highlighted books yet.</p>
-    )
-  }
-</section>
+    </section>
+  ) : null
+}

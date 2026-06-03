@@ -1,13 +1,27 @@
 ---
-const { shopUrl, showBooks } = Astro.props;
+const { shopUrl, showBooks, currentPath = "/" } = Astro.props;
+
+const isActive = (path: string) => {
+  if (path === "/") return currentPath === "/";
+  return currentPath === path || currentPath.startsWith(`${path}/`);
+};
+
+const navItems: { label: string; href: string; external?: boolean }[] = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  ...(showBooks ? [{ label: "Books", href: "/books" }] : []),
+  { label: "Events", href: "/events" },
+  { label: "Contact", href: "/contact" },
+  { label: "Shop", href: shopUrl, external: true },
+];
 ---
 
-<header class="border-b border-slate-200">
-  <div class="mx-auto max-w-5xl px-6 py-6 sm:py-10">
-    <div class="flex items-center justify-between sm:flex-col sm:gap-4">
+<header class="border-b border-rule">
+  <div class="mx-auto max-w-5xl px-6 pt-7 pb-5 sm:pt-12 sm:pb-8">
+    <div class="flex items-center justify-between sm:flex-col sm:gap-6">
       <a
         href="/"
-        class="text-2xl sm:text-3xl font-semibold tracking-wide text-slate-900"
+        class="display-tight text-2xl sm:text-4xl font-medium tracking-tight text-ink"
       >
         John Cavanagh
       </a>
@@ -15,7 +29,7 @@ const { shopUrl, showBooks } = Astro.props;
       <button
         id="menu-toggle"
         type="button"
-        class="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+        class="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-ink-muted hover:bg-paper-deep hover:text-ink transition"
         aria-label="Toggle menu"
         aria-expanded="false"
       >
@@ -29,8 +43,8 @@ const { shopUrl, showBooks } = Astro.props;
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"></path>
+            stroke-width="1.5"
+            d="M4 7h16M4 12h16M4 17h16"></path>
         </svg>
         <svg
           id="close-icon"
@@ -42,7 +56,7 @@ const { shopUrl, showBooks } = Astro.props;
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
-            stroke-width="2"
+            stroke-width="1.5"
             d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
@@ -51,46 +65,57 @@ const { shopUrl, showBooks } = Astro.props;
     <nav
       id="mobile-menu"
       aria-label="Primary"
-      class="hidden sm:flex sm:flex-row sm:justify-center sm:gap-x-6 mt-6 sm:mt-8 text-sm font-medium uppercase tracking-[0.18em] text-slate-600"
+      class="hidden sm:flex sm:flex-row sm:justify-center sm:items-center sm:gap-x-8 mt-6 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-ink-muted"
     >
-      <a class="hover:text-slate-900 sm:py-0" href="/">Home</a>
-      <a class="hover:text-slate-900 sm:py-0" href="/about">About</a>
-      {
-        showBooks ? (
-          <a class="hover:text-slate-900 sm:py-0" href="/books">
-            Books
+      {navItems.map((item) => {
+        const active = !item.external && isActive(item.href);
+        return item.external ? (
+          <a
+            class="inline-flex items-center gap-1 transition hover:text-ink"
+            href={item.href}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {item.label} <span aria-hidden="true" class="text-ink-faint">↗</span>
           </a>
-        ) : null
-      }
-      <a class="hover:text-slate-900 sm:py-0" href="/events">Events</a>
-      <a class="hover:text-slate-900 sm:py-0" href="/contact">Contact</a>
-      <a
-        class="inline-flex items-center gap-1 hover:text-slate-900 sm:py-0"
-        href={shopUrl}
-        target="_blank"
-        rel="noreferrer"
-      >
-        Shop <span aria-hidden="true">↗</span>
-      </a>
+        ) : (
+          <a
+            class:list={[
+              "transition",
+              active ? "text-ink" : "hover:text-ink",
+            ]}
+            href={item.href}
+            aria-current={active ? "page" : undefined}
+          >
+            <span
+              class:list={[
+                active ? "border-b border-ink pb-1" : "border-b border-transparent pb-1",
+              ]}
+            >
+              {item.label}
+            </span>
+          </a>
+        );
+      })}
     </nav>
   </div>
 
   <!-- Full-screen mobile menu -->
   <div
     id="mobile-menu-overlay"
-    class="fixed inset-0 z-50 hidden bg-white sm:hidden"
+    class="fixed inset-0 z-50 hidden bg-paper sm:hidden"
   >
     <div class="flex h-full flex-col">
       <div
-        class="flex items-center justify-between border-b border-slate-200 px-6 py-6"
+        class="flex items-center justify-between border-b border-rule px-6 py-7"
       >
-        <a href="/" class="text-2xl font-semibold tracking-wide text-slate-900">
+        <a href="/" class="display-tight text-2xl font-medium tracking-tight text-ink">
           John Cavanagh
         </a>
         <button
           id="mobile-close"
           type="button"
-          class="inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+          class="inline-flex items-center justify-center rounded-md p-2 text-ink-muted hover:bg-paper-deep hover:text-ink transition"
           aria-label="Close menu"
         >
           <svg
@@ -102,34 +127,31 @@ const { shopUrl, showBooks } = Astro.props;
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
+              stroke-width="1.5"
               d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
       </div>
       <nav
         aria-label="Mobile navigation"
-        class="flex flex-1 flex-col items-center justify-center gap-8 text-2xl font-medium uppercase tracking-[0.18em] text-slate-900"
+        class="flex flex-1 flex-col items-center justify-center gap-7 text-base font-semibold uppercase tracking-[0.24em] text-ink"
       >
-        <a class="hover:text-slate-600" href="/">Home</a>
-        <a class="hover:text-slate-600" href="/about">About</a>
-        {
-          showBooks ? (
-            <a class="hover:text-slate-600" href="/books">
-              Books
+        {navItems.map((item) =>
+          item.external ? (
+            <a
+              class="inline-flex items-center gap-2 hover:text-ink-muted transition"
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {item.label} <span aria-hidden="true">↗</span>
             </a>
-          ) : null
-        }
-        <a class="hover:text-slate-600" href="/events">Events</a>
-        <a class="hover:text-slate-600" href="/contact">Contact</a>
-        <a
-          class="inline-flex items-center gap-2 hover:text-slate-600"
-          href={shopUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Shop <span aria-hidden="true">↗</span>
-        </a>
+          ) : (
+            <a class="hover:text-ink-muted transition" href={item.href}>
+              {item.label}
+            </a>
+          ),
+        )}
       </nav>
     </div>
   </div>
@@ -161,7 +183,6 @@ const { shopUrl, showBooks } = Astro.props;
   menuToggle?.addEventListener("click", openMenu);
   mobileClose?.addEventListener("click", closeMenu);
 
-  // Close menu when clicking on a link
   const mobileLinks = mobileMenuOverlay?.querySelectorAll("a");
   mobileLinks?.forEach((link) => {
     link.addEventListener("click", closeMenu);

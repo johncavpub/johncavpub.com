@@ -2,23 +2,25 @@
 const { newsletterUrl } = Astro.props;
 ---
 
-<section class="w-full bg-slate-900 py-8 text-white sm:py-12">
-  <div class="mx-auto flex max-w-5xl flex-col gap-4 px-4 sm:gap-6 sm:px-6">
-    <div>
-      <h2 class="text-2xl font-semibold">Subscribe to the newsletter</h2>
-      <p class="mt-2 text-sm text-slate-200">
-        Get updates on new releases, events, and behind-the-scenes notes.
-      </p>
-    </div>
+<section class="w-full bg-ink text-paper">
+  <div class="mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 pt-16 pb-12 sm:pt-20 sm:pb-14 text-center">
+    <p class="eyebrow text-paper/60">Newsletter</p>
+    <h2 class="display-tight text-3xl sm:text-4xl font-medium text-paper">
+      Stay in touch
+    </h2>
+    <p class="max-w-md text-base italic text-paper/70">
+      Updates on new releases, events, and behind-the-scenes notes — sent only when there's something worth saying.
+    </p>
     <form
       action={newsletterUrl}
       method="post"
       target="_blank"
-      class="flex flex-col gap-3 sm:flex-row"
+      rel="noreferrer"
+      class="mt-2 flex w-full max-w-md flex-col gap-3 sm:flex-row"
     >
       <label class="sr-only" for="mce-EMAIL">Email address</label>
       <input
-        class="w-full rounded-full border border-slate-700 bg-slate-800 px-4 py-2 text-sm text-white placeholder:text-slate-400"
+        class="w-full rounded-full border border-paper/20 bg-transparent px-5 py-3 text-sm text-paper placeholder:text-paper/40 focus:border-paper/50 focus:outline-none transition"
         type="email"
         name="EMAIL"
         id="mce-EMAIL"
@@ -26,7 +28,7 @@ const { newsletterUrl } = Astro.props;
         required
       />
       <button
-        class="inline-flex items-center justify-center rounded-full bg-white px-6 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100"
+        class="inline-flex items-center justify-center rounded-full bg-paper px-7 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-ink transition hover:bg-paper-deep"
         type="submit"
       >
         Subscribe

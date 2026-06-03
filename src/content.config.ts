@@ -5,8 +5,13 @@ const books = defineCollection({
 	schema: z.object({
 		title: z.string(),
 		description: z.string(),
-		cover_image: z.string(),
-		publish_date: z.string().optional(),
+		cover_image: z.string().optional(),
+		publish_date: z
+			.union([z.string(), z.date()])
+			.transform((v) =>
+				v instanceof Date ? v.toISOString().slice(0, 10) : v
+			)
+			.optional(),
 		highlight: z.boolean().optional(),
 		amazon_url: z.string().url(),
 		barnes_noble_url: z.string().url(),

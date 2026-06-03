@@ -17,7 +17,5 @@ const { Content } = await book.render();
 ---
 
 <Layout title={book.data.title}>
-  <main class="flex justify-center">
-    <BookDetail book={book} Content={Content} />
-  </main>
+  <BookDetail book={book} Content={Content} />
 </Layout>

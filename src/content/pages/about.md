@@ -1,6 +1,5 @@
 ---
 title: "About the Author"
-headshot_image: "/images/author-headshot.svg"
 socials:
   - label: "Instagram"
     url: "https://www.instagram.com/johncavpub"

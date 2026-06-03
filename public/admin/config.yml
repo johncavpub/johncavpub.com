@@ -3,6 +3,14 @@ backend:
   repo: johncavpub/johncavpub.com
   base_url: https://api.netlify.com
 
+media_library:
+  name: cloudinary
+  output_filename_only: true
+  config:
+    cloud_name: dkhct44d3
+    api_key: "332423296667244"
+    upload_preset: johncavanagh-decap
+
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
@@ -37,7 +45,12 @@ collections:
         file: "src/content/pages/about.md"
         fields:
           - { label: "Title", name: "title", widget: "string" }
-          - { label: "Headshot", name: "headshot_image", widget: "image" }
+          - {
+              label: "Headshot",
+              name: "headshot_image",
+              widget: "image",
+              required: false,
+            }
           - label: "Social Links"
             name: "socials"
             widget: "list"
@@ -55,7 +68,12 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
-      - { label: "Cover Image", name: "cover_image", widget: "image" }
+      - {
+          label: "Cover Image",
+          name: "cover_image",
+          widget: "image",
+          required: false,
+        }
       - {
           label: "Publish Date",
           name: "publish_date",

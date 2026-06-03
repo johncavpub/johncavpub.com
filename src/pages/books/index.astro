@@ -3,11 +3,25 @@ import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import BooksList from "../../components/sections/BooksList.astro";
 
-const books = (await getCollection("books")).sort(
-  (a, b) =>
-    (b.data.publish_date ? Date.parse(b.data.publish_date) : 0) -
-    (a.data.publish_date ? Date.parse(a.data.publish_date) : 0),
-);
+const now = Date.now();
+const all = await getCollection("books");
+
+const annotated = all.map((book) => ({
+  book,
+  ts: book.data.publish_date ? Date.parse(book.data.publish_date) : 0,
+  comingSoon: book.data.publish_date
+    ? Date.parse(book.data.publish_date) > now
+    : false,
+}));
+
+const released = annotated
+  .filter((b) => !b.comingSoon)
+  .sort((a, b) => b.ts - a.ts);
+const upcoming = annotated
+  .filter((b) => b.comingSoon)
+  .sort((a, b) => a.ts - b.ts);
+
+const books = [...released, ...upcoming].map((b) => b.book);
 
 if (books.length < 3) {
   return Astro.redirect("/");
@@ -15,14 +29,16 @@ if (books.length < 3) {
 ---
 
 <Layout title="Books">
-  <main class="mx-auto max-w-5xl px-6 py-10">
-    <header class="mb-8">
-      <h1 class="text-3xl font-semibold text-slate-900">Books</h1>
-      <p class="mt-2 text-sm text-slate-600">
+  <div class="mx-auto max-w-3xl px-6 pt-10 pb-20 sm:pt-16">
+    <header class="mb-10 text-center">
+      <h1 class="display-tight text-4xl sm:text-5xl font-medium text-ink">
+        Books
+      </h1>
+      <p class="mt-4 text-base italic text-ink-muted">
         Browse the full catalog of titles.
       </p>
     </header>
 
     <BooksList books={books} />
-  </main>
+  </div>
 </Layout>
