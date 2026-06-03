@@ -1,0 +1,36 @@
+---
+const { newsletterUrl } = Astro.props;
+---
+
+<section class="w-full bg-slate-900 py-8 text-white sm:py-12">
+  <div class="mx-auto flex max-w-5xl flex-col gap-4 px-4 sm:gap-6 sm:px-6">
+    <div>
+      <h2 class="text-2xl font-semibold">Subscribe to the newsletter</h2>
+      <p class="mt-2 text-sm text-slate-200">
+        Get updates on new releases, events, and behind-the-scenes notes.
+      </p>
+    </div>
+    <form
+      action={newsletterUrl}
+      method="post"
+      target="_blank"
+      class="flex flex-col gap-3 sm:flex-row"
+    >
+      <label class="sr-only" for="mce-EMAIL">Email address</label>
+      <input
+        class="w-full rounded-full border border-slate-700 bg-slate-800 px-4 py-2 text-sm text-white placeholder:text-slate-400"
+        type="email"
+        name="EMAIL"
+        id="mce-EMAIL"
+        placeholder="you@email.com"
+        required
+      />
+      <button
+        class="inline-flex items-center justify-center rounded-full bg-white px-6 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-100"
+        type="submit"
+      >
+        Subscribe
+      </button>
+    </form>
+  </div>
+</section>

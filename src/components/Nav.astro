@@ -1,0 +1,169 @@
+---
+const { shopUrl, showBooks } = Astro.props;
+---
+
+<header class="border-b border-slate-200">
+  <div class="mx-auto max-w-5xl px-6 py-6 sm:py-10">
+    <div class="flex items-center justify-between sm:flex-col sm:gap-4">
+      <a
+        href="/"
+        class="text-2xl sm:text-3xl font-semibold tracking-wide text-slate-900"
+      >
+        John Cavanagh
+      </a>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        class="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        <svg
+          id="menu-icon"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg
+          id="close-icon"
+          class="hidden h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <nav
+      id="mobile-menu"
+      aria-label="Primary"
+      class="hidden sm:flex sm:flex-row sm:justify-center sm:gap-x-6 mt-6 sm:mt-8 text-sm font-medium uppercase tracking-[0.18em] text-slate-600"
+    >
+      <a class="hover:text-slate-900 sm:py-0" href="/">Home</a>
+      <a class="hover:text-slate-900 sm:py-0" href="/about">About</a>
+      {
+        showBooks ? (
+          <a class="hover:text-slate-900 sm:py-0" href="/books">
+            Books
+          </a>
+        ) : null
+      }
+      <a class="hover:text-slate-900 sm:py-0" href="/events">Events</a>
+      <a class="hover:text-slate-900 sm:py-0" href="/contact">Contact</a>
+      <a
+        class="inline-flex items-center gap-1 hover:text-slate-900 sm:py-0"
+        href={shopUrl}
+        target="_blank"
+        rel="noreferrer"
+      >
+        Shop <span aria-hidden="true">↗</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Full-screen mobile menu -->
+  <div
+    id="mobile-menu-overlay"
+    class="fixed inset-0 z-50 hidden bg-white sm:hidden"
+  >
+    <div class="flex h-full flex-col">
+      <div
+        class="flex items-center justify-between border-b border-slate-200 px-6 py-6"
+      >
+        <a href="/" class="text-2xl font-semibold tracking-wide text-slate-900">
+          John Cavanagh
+        </a>
+        <button
+          id="mobile-close"
+          type="button"
+          class="inline-flex items-center justify-center rounded-md p-2 text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+          aria-label="Close menu"
+        >
+          <svg
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <nav
+        aria-label="Mobile navigation"
+        class="flex flex-1 flex-col items-center justify-center gap-8 text-2xl font-medium uppercase tracking-[0.18em] text-slate-900"
+      >
+        <a class="hover:text-slate-600" href="/">Home</a>
+        <a class="hover:text-slate-600" href="/about">About</a>
+        {
+          showBooks ? (
+            <a class="hover:text-slate-600" href="/books">
+              Books
+            </a>
+          ) : null
+        }
+        <a class="hover:text-slate-600" href="/events">Events</a>
+        <a class="hover:text-slate-600" href="/contact">Contact</a>
+        <a
+          class="inline-flex items-center gap-2 hover:text-slate-600"
+          href={shopUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Shop <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menuToggle = document.getElementById("menu-toggle");
+  const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
+  const mobileClose = document.getElementById("mobile-close");
+  const menuIcon = document.getElementById("menu-icon");
+  const closeIcon = document.getElementById("close-icon");
+
+  function openMenu() {
+    menuToggle?.setAttribute("aria-expanded", "true");
+    mobileMenuOverlay?.classList.remove("hidden");
+    menuIcon?.classList.add("hidden");
+    closeIcon?.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeMenu() {
+    menuToggle?.setAttribute("aria-expanded", "false");
+    mobileMenuOverlay?.classList.add("hidden");
+    menuIcon?.classList.remove("hidden");
+    closeIcon?.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  menuToggle?.addEventListener("click", openMenu);
+  mobileClose?.addEventListener("click", closeMenu);
+
+  // Close menu when clicking on a link
+  const mobileLinks = mobileMenuOverlay?.querySelectorAll("a");
+  mobileLinks?.forEach((link) => {
+    link.addEventListener("click", closeMenu);
+  });
+</script>
