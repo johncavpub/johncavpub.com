@@ -1,0 +1,19 @@
+---
+import { getEntry } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import AboutSplit from "../components/sections/AboutSplit.astro";
+
+const about = await getEntry("pages", "about");
+
+if (!about) {
+  throw new Error("About page content not found.");
+}
+
+const { Content } = await about.render();
+---
+
+<Layout title={about.data.title}>
+  <main class="flex justify-center">
+    <AboutSplit about={about} Content={Content} />
+  </main>
+</Layout>
