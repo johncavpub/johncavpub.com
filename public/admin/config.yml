@@ -1,0 +1,125 @@
+backend:
+  name: github
+  repo: mbmackenzie/johncavpub
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "home"
+    label: "Home"
+    files:
+      - name: "home"
+        label: "Home Page"
+        file: "src/content/pages/home.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Intro", name: "intro", widget: "text" }
+          - { label: "Redbubble URL", name: "redbubble_url", widget: "string" }
+          - {
+              label: "Newsletter URL",
+              name: "newsletter_url",
+              widget: "string",
+            }
+          - {
+              label: "Notes",
+              name: "body",
+              widget: "markdown",
+              required: false,
+            }
+
+  - name: "about"
+    label: "About"
+    files:
+      - name: "about"
+        label: "About Page"
+        file: "src/content/pages/about.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Headshot", name: "headshot_image", widget: "image" }
+          - label: "Social Links"
+            name: "socials"
+            widget: "list"
+            required: false
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "books"
+    label: "Books"
+    folder: "src/content/books"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Cover Image", name: "cover_image", widget: "image" }
+      - {
+          label: "Publish Date",
+          name: "publish_date",
+          widget: "datetime",
+          required: false,
+        }
+      - {
+          label: "Highlight",
+          name: "highlight",
+          widget: "boolean",
+          required: false,
+        }
+      - { label: "Amazon URL", name: "amazon_url", widget: "string" }
+      - {
+          label: "Barnes & Noble URL",
+          name: "barnes_noble_url",
+          widget: "string",
+        }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+  - name: "events"
+    label: "Events"
+    folder: "src/content/events"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Location", name: "location", widget: "string" }
+      - { label: "Address", name: "address", widget: "string", required: false }
+      - { label: "Time", name: "time", widget: "string", required: false }
+      - { label: "URL", name: "url", widget: "string", required: false }
+      - {
+          label: "Description",
+          name: "description",
+          widget: "text",
+          required: false,
+        }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
+  - name: "testimonials"
+    label: "Testimonials"
+    folder: "src/content/testimonials"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Quote", name: "quote", widget: "text" }
+      - { label: "Author", name: "author", widget: "string" }
+      - { label: "Role", name: "role", widget: "string", required: false }
+      - { label: "Source", name: "source", widget: "string", required: false }
+
+  - name: "contact"
+    label: "Contact"
+    files:
+      - name: "contact"
+        label: "Contact Page"
+        file: "src/content/contact/contact.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Intro", name: "intro", widget: "text" }
+          - { label: "Email", name: "email", widget: "string" }
+          - {
+              label: "Response Time",
+              name: "response_time",
+              widget: "string",
+              required: false,
+            }
+          - { label: "Body", name: "body", widget: "markdown", required: false }
