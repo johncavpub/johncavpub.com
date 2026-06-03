@@ -16,6 +16,11 @@ if (!book) {
 const { Content } = await book.render();
 ---
 
-<Layout title={book.data.title}>
+<Layout
+  title={book.data.title}
+  description={book.data.description}
+  ogImage={book.data.cover_image}
+  ogType="book"
+>
   <BookDetail book={book} Content={Content} />
 </Layout>

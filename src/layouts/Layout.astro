@@ -3,9 +3,15 @@ import { getCollection, getEntry } from "astro:content";
 import Nav from "../components/Nav.astro";
 import SubscribeForm from "../components/SubscribeForm.astro";
 import FooterMeta from "../components/FooterMeta.astro";
+import { imgUrl } from "../lib/cloudinary";
 import "../styles/global.css";
 
-const { title = "John Cavanagh" } = Astro.props;
+const {
+  title = "John Cavanagh",
+  description: descriptionProp,
+  ogImage: ogImageProp,
+  ogType = "website",
+} = Astro.props;
 const home = await getEntry("pages", "home");
 const about = await getEntry("pages", "about");
 const contact = await getEntry("contact", "contact");
@@ -16,6 +22,14 @@ const books = await getCollection("books");
 const showBooks = books.length >= 3;
 const currentPath = Astro.url.pathname;
 const subscribed = currentPath.startsWith("/thanks");
+
+const siteDescription = home?.data.intro ?? "Children's book author John Cavanagh.";
+const description = descriptionProp ?? siteDescription;
+
+const rawOgImage = ogImageProp ?? about?.data.headshot_image;
+const ogImageUrl = rawOgImage
+  ? imgUrl(rawOgImage, { w: 1200, h: 630, c: "fill", g: "auto" })
+  : undefined;
 ---
 
 <!doctype html>
@@ -27,6 +41,15 @@ const subscribed = currentPath.startsWith("/thanks");
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <link rel="canonical" href={Astro.url.href} />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="John Cavanagh" />
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    <meta name="twitter:card" content="summary_large_image" />
     <script
       defer
       src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"

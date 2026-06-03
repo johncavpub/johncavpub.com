@@ -7,7 +7,7 @@ const { Content } = await contactEntry.render();
 const contact = contactEntry.data;
 ---
 
-<Layout title="Contact">
+<Layout title="Contact" description={contact.intro}>
   <div class="mx-auto max-w-2xl px-6 pt-10 pb-20 sm:pt-16">
     <header class="mb-10 text-center">
       <h1 class="display-tight text-4xl sm:text-5xl font-medium text-ink">

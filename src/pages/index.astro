@@ -24,7 +24,7 @@ const highlightedBooks = books
     );
 ---
 
-<Layout title={home.data.title}>
+<Layout title={home.data.title} description={home.data.intro}>
     <HomeHero intro={home.data.intro} />
     <NextEvent events={events} />
     <NewestBook books={highlightedBooks} />
