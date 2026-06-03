@@ -12,12 +12,14 @@ const { events } = Astro.props;
           year: "numeric",
           month: "long",
           day: "numeric",
+          timeZone: "UTC",
         });
         const dayMonth = eventDate.toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
+          timeZone: "UTC",
         });
-        const year = eventDate.getFullYear();
+        const year = eventDate.getUTCFullYear();
 
         const content = (
           <article

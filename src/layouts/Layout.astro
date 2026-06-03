@@ -9,14 +9,13 @@ const { title = "John Cavanagh" } = Astro.props;
 const home = await getEntry("pages", "home");
 const about = await getEntry("pages", "about");
 const contact = await getEntry("contact", "contact");
-const newsletterUrl =
-  home?.data.newsletter_url ?? "https://example.com/newsletter";
 const shopUrl = home?.data.redbubble_url ?? "https://example.com/shop";
 const socials = about?.data.socials ?? [];
 const email = contact?.data.email;
 const books = await getCollection("books");
 const showBooks = books.length >= 3;
 const currentPath = Astro.url.pathname;
+const subscribed = currentPath.startsWith("/thanks");
 ---
 
 <!doctype html>
@@ -39,7 +38,7 @@ const currentPath = Astro.url.pathname;
       <slot />
     </main>
     <footer>
-      <SubscribeForm newsletterUrl={newsletterUrl} />
+      <SubscribeForm subscribed={subscribed} />
       <FooterMeta socials={socials} email={email} />
     </footer>
   </body>

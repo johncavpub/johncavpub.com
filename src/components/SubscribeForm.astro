@@ -1,38 +1,59 @@
 ---
-const { newsletterUrl } = Astro.props;
+const { subscribed = false } = Astro.props;
 ---
 
 <section class="w-full bg-ink text-paper">
   <div class="mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 pt-16 pb-12 sm:pt-20 sm:pb-14 text-center">
     <p class="eyebrow text-paper/60">Newsletter</p>
-    <h2 class="display-tight text-3xl sm:text-4xl font-medium text-paper">
-      Stay in touch
-    </h2>
-    <p class="max-w-md text-base italic text-paper/70">
-      Updates on new releases, events, and behind-the-scenes notes — sent only when there's something worth saying.
-    </p>
-    <form
-      action={newsletterUrl}
-      method="post"
-      target="_blank"
-      rel="noreferrer"
-      class="mt-2 flex w-full max-w-md flex-col gap-3 sm:flex-row"
-    >
-      <label class="sr-only" for="mce-EMAIL">Email address</label>
-      <input
-        class="w-full rounded-full border border-paper/20 bg-transparent px-5 py-3 text-sm text-paper placeholder:text-paper/40 focus:border-paper/50 focus:outline-none transition"
-        type="email"
-        name="EMAIL"
-        id="mce-EMAIL"
-        placeholder="you@email.com"
-        required
-      />
-      <button
-        class="inline-flex items-center justify-center rounded-full bg-paper px-7 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-ink transition hover:bg-paper-deep"
-        type="submit"
-      >
-        Subscribe
-      </button>
-    </form>
+    {
+      subscribed ? (
+        <>
+          <h2 class="display-tight text-3xl sm:text-4xl font-medium text-paper">
+            You're on the list
+          </h2>
+          <p class="max-w-md text-base italic text-paper/70">
+            Thanks for subscribing — watch your inbox for the next note.
+          </p>
+        </>
+      ) : (
+        <>
+          <h2 class="display-tight text-3xl sm:text-4xl font-medium text-paper">
+            Stay in touch
+          </h2>
+          <p class="max-w-md text-base italic text-paper/70">
+            Updates on new releases, events, and behind-the-scenes notes — sent
+            only when there's something worth saying.
+          </p>
+          <form
+            name="newsletter"
+            method="post"
+            action="/thanks"
+            data-netlify="true"
+            data-netlify-honeypot="bot-field"
+            class="mt-2 flex w-full max-w-md flex-col gap-3 sm:flex-row"
+          >
+            <input type="hidden" name="form-name" value="newsletter" />
+            <p class="hidden">
+              <label>Don't fill this out: <input name="bot-field" /></label>
+            </p>
+            <label class="sr-only" for="newsletter-email">Email address</label>
+            <input
+              class="w-full rounded-full border border-paper/20 bg-transparent px-5 py-3 text-sm text-paper placeholder:text-paper/40 focus:border-paper/50 focus:outline-none transition"
+              type="email"
+              name="email"
+              id="newsletter-email"
+              placeholder="you@email.com"
+              required
+            />
+            <button
+              class="inline-flex items-center justify-center rounded-full bg-paper px-7 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-ink transition hover:bg-paper-deep"
+              type="submit"
+            >
+              Subscribe
+            </button>
+          </form>
+        </>
+      )
+    }
   </div>
 </section>
