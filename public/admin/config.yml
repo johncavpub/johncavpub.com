@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: mbmackenzie/johncavpub
+  repo: johncavpub/johncavpub.com
 
 media_folder: "public/uploads"
 public_folder: "/uploads"

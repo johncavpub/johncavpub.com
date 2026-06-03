@@ -1,4 +1,6 @@
-# John Cavanagh — Astro MVP
+# John Cavanagh
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/597a8227-e68a-4f58-b7b0-373013954586/deploy-status)](https://app.netlify.com/projects/silver-yeot-02170d/deploys)
 
 Minimal, content-driven Astro site with a Home page, About page, and Decap CMS editing.
 
