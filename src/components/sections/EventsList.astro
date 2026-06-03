@@ -1,0 +1,68 @@
+---
+const { events } = Astro.props;
+---
+
+<section class="grid gap-8">
+  {
+    events.map((event) =>
+      (() => {
+        const eventDate = new Date(event.data.date);
+        const isPast = eventDate < new Date();
+        const formattedDate = eventDate.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+        const content = (
+          <article class="grid gap-3">
+            <div>
+              <div class="flex flex-wrap items-center gap-2">
+                <h2 class="text-2xl font-semibold text-slate-900">
+                  {event.data.title}
+                </h2>
+                {isPast ? (
+                  <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600">
+                    Past
+                  </span>
+                ) : null}
+              </div>
+              <p class="mt-1 text-xs uppercase tracking-[0.2em] text-slate-500">
+                {formattedDate} · {event.data.location}
+                {event.data.time ? ` · ${event.data.time}` : ""}
+              </p>
+              {event.data.address ? (
+                <p class="mt-2 text-sm text-slate-600">{event.data.address}</p>
+              ) : null}
+            </div>
+            {event.data.description ? (
+              <p class="text-base text-slate-600">{event.data.description}</p>
+            ) : null}
+          </article>
+        );
+
+        return event.data.url ? (
+          <a
+            class={`group block rounded-xl border border-transparent px-2 py-4 transition duration-200 hover:-translate-y-1 hover:border-slate-200 hover:shadow-lg ${
+              isPast ? "opacity-70" : ""
+            }`}
+            href={event.data.url}
+            target="_blank"
+            rel="noreferrer"
+            key={event.id}
+          >
+            {content}
+          </a>
+        ) : (
+          <div
+            class={`group rounded-xl border border-transparent px-2 py-4 transition duration-200 hover:-translate-y-1 hover:border-slate-200 hover:shadow-lg cursor-default ${
+              isPast ? "opacity-70" : ""
+            }`}
+            key={event.id}
+          >
+            {content}
+          </div>
+        );
+      })(),
+    )
+  }
+</section>

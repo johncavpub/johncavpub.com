@@ -1,0 +1,28 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import EventsList from "../components/sections/EventsList.astro";
+
+const events = (await getCollection("events")).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
+---
+
+<Layout title="Events">
+  <main class="mx-auto max-w-5xl px-6 py-10">
+    <header class="mb-8">
+      <h1 class="text-3xl font-semibold text-slate-900">Events</h1>
+      <p class="mt-2 text-sm text-slate-600">
+        Upcoming appearances and signings.
+      </p>
+    </header>
+
+    {
+      events.length ? (
+        <EventsList events={events} />
+      ) : (
+        <p class="text-sm text-slate-600">Event details will be posted soon.</p>
+      )
+    }
+  </main>
+</Layout>
