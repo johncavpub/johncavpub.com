@@ -1,0 +1,36 @@
+---
+import TestimonialsCarouselVue from "../TestimonialsCarousel.vue";
+
+interface Testimonial {
+  data: {
+    author: string;
+    quote: string;
+    role?: string;
+    source?: string;
+  };
+}
+
+interface Props {
+  testimonials: Testimonial[];
+}
+
+const { testimonials } = Astro.props;
+
+// Transform for Vue component
+const testimonialsData = testimonials.map((t) => ({
+  author: t.data.author,
+  quote: t.data.quote,
+  role: t.data.role,
+  source: t.data.source,
+}));
+---
+
+<section class="mx-auto max-w-5xl px-6 py-10">
+  <div class="mb-6">
+    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+      Testimonials
+    </p>
+  </div>
+
+  <TestimonialsCarouselVue client:load testimonials={testimonialsData} />
+</section>
