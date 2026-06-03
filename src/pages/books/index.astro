@@ -1,0 +1,28 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import BooksList from "../../components/sections/BooksList.astro";
+
+const books = (await getCollection("books")).sort(
+  (a, b) =>
+    (b.data.publish_date ? Date.parse(b.data.publish_date) : 0) -
+    (a.data.publish_date ? Date.parse(a.data.publish_date) : 0),
+);
+
+if (books.length < 3) {
+  return Astro.redirect("/");
+}
+---
+
+<Layout title="Books">
+  <main class="mx-auto max-w-5xl px-6 py-10">
+    <header class="mb-8">
+      <h1 class="text-3xl font-semibold text-slate-900">Books</h1>
+      <p class="mt-2 text-sm text-slate-600">
+        Browse the full catalog of titles.
+      </p>
+    </header>
+
+    <BooksList books={books} />
+  </main>
+</Layout>

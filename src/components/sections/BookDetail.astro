@@ -1,0 +1,41 @@
+---
+const { book, Content } = Astro.props;
+---
+
+<section class="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
+  <div
+    class="grid items-start justify-items-center gap-6 sm:gap-10 lg:grid-cols-[minmax(0,340px)_1fr] lg:justify-items-start"
+  >
+    <img
+      class="w-full rounded-md border border-slate-200 shadow-sm"
+      src={book.data.cover_image}
+      alt={`${book.data.title} cover`}
+    />
+    <div class="w-full max-w-xl">
+      <h1 class="text-2xl font-semibold text-slate-900 sm:text-3xl">
+        {book.data.title}
+      </h1>
+      <div class="mt-4 space-y-6 text-lg leading-relaxed text-slate-700">
+        <Content />
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a
+          class="inline-flex items-center justify-center rounded-full bg-slate-900 px-8 py-3 text-base font-semibold text-white hover:bg-slate-800"
+          href={book.data.amazon_url}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Amazon
+        </a>
+        <a
+          class="inline-flex items-center justify-center rounded-full border border-slate-900 px-8 py-3 text-base font-semibold text-slate-900 hover:bg-slate-100"
+          href={book.data.barnes_noble_url}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Barnes & Noble
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

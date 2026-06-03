@@ -1,0 +1,61 @@
+---
+const { books } = Astro.props;
+---
+
+<section class="grid gap-8">
+  {
+    books.map((book) =>
+      (() => {
+        const publishDate = book.data.publish_date
+          ? new Date(book.data.publish_date)
+          : null;
+        const isFuture = publishDate ? publishDate > new Date() : false;
+        const formattedDate = publishDate
+          ? publishDate.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            })
+          : null;
+        return (
+          <a
+            class="group block rounded-xl border border-transparent px-2 py-4 transition duration-200 hover:-translate-y-1 hover:border-slate-200 hover:shadow-lg"
+            href={`/books/${book.slug}`}
+            key={book.id}
+          >
+            <article class="grid gap-6 sm:grid-cols-[200px_1fr]">
+              <img
+                class="w-full rounded-md"
+                src={book.data.cover_image}
+                alt={`${book.data.title} cover`}
+              />
+              <div>
+                <div class="flex flex-wrap items-center gap-2">
+                  <h2 class="text-2xl font-semibold text-slate-900">
+                    {book.data.title}
+                  </h2>
+                  {isFuture ? (
+                    <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-600">
+                      Coming soon
+                    </span>
+                  ) : null}
+                </div>
+                {formattedDate ? (
+                  <p class="mt-1 text-xs uppercase tracking-[0.2em] text-slate-500">
+                    {formattedDate}
+                  </p>
+                ) : null}
+                <p class="mt-3 text-base text-slate-600">
+                  {book.data.description}
+                </p>
+                <span class="mt-5 inline-flex items-center text-sm font-semibold text-slate-900 group-hover:text-slate-700">
+                  View details
+                </span>
+              </div>
+            </article>
+          </a>
+        );
+      })(),
+    )
+  }
+</section>
