@@ -1,0 +1,23 @@
+---
+const { books } = Astro.props;
+---
+
+<section class="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
+  {
+    books?.length ? (
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {books.map((book) => (
+          <a href={`/books/${book.slug}`} key={book.id} class="group block">
+            <img
+              class="w-full rounded-md border border-slate-200 shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-md"
+              src={book.data.cover_image}
+              alt={`${book.data.title} cover`}
+            />
+          </a>
+        ))}
+      </div>
+    ) : (
+      <p class="text-sm text-slate-500">No highlighted books yet.</p>
+    )
+  }
+</section>

@@ -1,0 +1,36 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import NewestBook from "../components/sections/NewestBook.astro";
+import NextEvent from "../components/sections/NextEvent.astro";
+import TestimonialsCarousel from "../components/sections/TestimonialsCarousel.astro";
+
+const home = await getEntry("pages", "home");
+
+if (!home) {
+  throw new Error("Home page content not found.");
+}
+
+const books = await getCollection("books");
+const events = await getCollection("events");
+const testimonials = await getCollection("testimonials");
+const highlightedBooks = books
+  .filter((book) => book.data.highlight)
+  .sort(
+    (a, b) =>
+      (b.data.publish_date ? Date.parse(b.data.publish_date) : 0) -
+      (a.data.publish_date ? Date.parse(a.data.publish_date) : 0),
+  );
+---
+
+<Layout title={home.data.title}>
+  <main>
+    <NextEvent events={events} />
+    <NewestBook books={highlightedBooks} />
+    {
+      testimonials.length ? (
+        <TestimonialsCarousel testimonials={testimonials} />
+      ) : null
+    }
+  </main>
+</Layout>
