@@ -1,10 +1,12 @@
 ---
-title: "Riddler Rabbit Takes a Stand"
-description: "When the playground gets scary, Riddler Rabbit shows that the bravest thing you can do is stand up — for yourself and for others."
-publish_date: "2026-09-01"
+title: Riddler Rabbit Takes a Stand
+description: When the playground gets scary, Riddler Rabbit shows that the
+  bravest thing you can do is stand up — for yourself and for others.
+cover_image: /uploads/riddler-rabit-takes-a-stand_rx5sjc.png
+publish_date: 2026-09-01
 highlight: true
-amazon_url: "https://a.co/d/dI2ML9z"
-barnes_noble_url: "https://www.barnesandnoble.com/w/riddler-rabbit-makes-a-friend-john-cavanagh/1147287323"
+amazon_url: https://a.co/d/dI2ML9z
+barnes_noble_url: https://www.barnesandnoble.com/w/riddler-rabbit-makes-a-friend-john-cavanagh/1147287323
 ---
 
 When a bully starts ruining recess for everyone, Riddler Rabbit faces a choice — look the other way or do something about it. With the help of some feathered friends and a loyal pup by his side, Riddler discovers that standing up isn't always easy, but it's always worth it.
