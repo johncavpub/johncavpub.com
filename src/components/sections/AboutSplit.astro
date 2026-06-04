@@ -2,7 +2,7 @@
 import { Icon } from "astro-icon/components";
 import { imgUrl, imgSrcset } from "../../lib/cloudinary";
 
-const { about, Content } = Astro.props;
+const { site } = Astro.props;
 
 const iconMap: Record<string, string> = {
   instagram: "cib:instagram",
@@ -19,7 +19,7 @@ const getIconName = (label: string) => {
 <section class="mx-auto max-w-5xl px-6 pt-10 pb-20 sm:pt-16">
   <div class="mb-10 text-center">
     <h1 class="display-tight text-4xl sm:text-5xl font-medium text-ink">
-      {about.data.title}
+      About the Author
     </h1>
   </div>
 
@@ -28,16 +28,16 @@ const getIconName = (label: string) => {
   >
     <div class="w-full max-w-xs">
       {
-        about.data.headshot_image ? (
+        site.author_headshot_image ? (
           <div class="overflow-hidden bg-paper-deep">
             <img
               class="block w-full"
-              src={imgUrl(about.data.headshot_image, { w: 640 })}
-              srcset={imgSrcset(about.data.headshot_image, [320, 480, 640, 960])}
+              src={imgUrl(site.author_headshot_image, { w: 640 })}
+              srcset={imgSrcset(site.author_headshot_image, [320, 480, 640, 960])}
               sizes="(min-width: 1024px) 320px, 80vw"
               loading="eager"
               decoding="async"
-              alt={`${about.data.title} headshot`}
+              alt={`${site.author_name} headshot`}
             />
           </div>
         ) : null
@@ -45,14 +45,14 @@ const getIconName = (label: string) => {
     </div>
     <div class="w-full max-w-xl">
       <div class="space-y-5 text-lg leading-relaxed text-ink">
-        <Content />
+        {site.author_bio?.split('\n\n').map((p: string) => <p>{p}</p>)}
       </div>
       {
-        about.data.socials?.length ? (
+        site.social_links?.length ? (
           <>
             <div class="mt-8 h-px w-12 bg-rule" />
             <div class="mt-6 flex flex-wrap gap-3">
-              {about.data.socials.map((social) => (
+              {site.social_links.map((social: { label: string; url: string }) => (
                 <a
                   key={social.url}
                   href={social.url}

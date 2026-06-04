@@ -2,12 +2,10 @@
 import TestimonialsCarouselVue from "../TestimonialsCarousel.vue";
 
 interface Testimonial {
-  data: {
-    author: string;
-    quote: string;
-    role?: string;
-    source?: string;
-  };
+  author: string;
+  quote: string;
+  role?: string;
+  source?: string;
 }
 
 interface Props {
@@ -15,13 +13,6 @@ interface Props {
 }
 
 const { testimonials } = Astro.props;
-
-const testimonialsData = testimonials.map((t) => ({
-  author: t.data.author,
-  quote: t.data.quote,
-  role: t.data.role,
-  source: t.data.source,
-}));
 ---
 
 <section class="border-t border-rule bg-paper-soft">
@@ -29,6 +20,6 @@ const testimonialsData = testimonials.map((t) => ({
     <div class="mb-10 text-center">
       <p class="eyebrow">Praise</p>
     </div>
-    <TestimonialsCarouselVue client:load testimonials={testimonialsData} />
+    <TestimonialsCarouselVue client:load testimonials={testimonials} />
   </div>
 </section>

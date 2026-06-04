@@ -8,7 +8,7 @@ windowEnd.setDate(windowEnd.getDate() + windowDays);
 const upcomingEvents = (events ?? [])
   .map((event) => ({
     ...event,
-    parsedDate: new Date(event.data.date),
+    parsedDate: new Date(event.date),
   }))
   .filter((event) => event.parsedDate >= now && event.parsedDate <= windowEnd)
   .sort((a, b) => a.parsedDate.getTime() - b.parsedDate.getTime());
@@ -31,22 +31,22 @@ const formattedDate = nextEvent
       <div class="border-y border-rule py-8 sm:py-10 text-center">
         <p class="eyebrow">Upcoming event</p>
         <h2 class="mt-4 display-tight text-2xl sm:text-3xl font-medium text-ink">
-          {nextEvent.data.title}
+          {nextEvent.title}
         </h2>
         <p class="mt-3 text-sm text-ink-muted">
           <span class="italic">{formattedDate}</span>
           <span class="mx-2 text-ink-faint" aria-hidden="true">·</span>
-          {nextEvent.data.location}
+          {nextEvent.location}
         </p>
-        {nextEvent.data.description ? (
+        {nextEvent.description ? (
           <p class="mx-auto mt-4 max-w-xl text-base leading-relaxed text-ink-muted">
-            {nextEvent.data.description}
+            {nextEvent.description}
           </p>
         ) : null}
-        {nextEvent.data.url ? (
+        {nextEvent.url ? (
           <a
             class="mt-6 inline-block eyebrow link-underline text-ink hover:text-accent transition"
-            href={nextEvent.data.url}
+            href={nextEvent.url}
             target="_blank"
             rel="noreferrer"
           >

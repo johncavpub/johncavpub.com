@@ -4,7 +4,7 @@ import Layout from "../../layouts/Layout.astro";
 import BooksList from "../../components/sections/BooksList.astro";
 
 const now = Date.now();
-const all = await getCollection("books");
+const all = await getCollection("books", ({ data }) => !data.draft);
 
 const annotated = all.map((book) => ({
   book,

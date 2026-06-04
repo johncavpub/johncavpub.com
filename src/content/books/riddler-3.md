@@ -3,9 +3,7 @@ title: Riddler 3
 description: He's not your scared bunny no more...
 cover_image: /uploads/riddler3_o87jiz.png
 publish_date: 2027-01-16
-highlight: true
-amazon_url: https://a.co/d/dI2ML9z
-barnes_noble_url: https://www.barnesandnoble.com/w/riddler-rabbit-makes-a-friend-john-cavanagh/1147287323
+draft: true
 ---
 
 The clue is simple: *Where the meadow meets the hill.* The mission? Anything but.

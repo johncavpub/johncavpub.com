@@ -3,90 +3,77 @@ const { events } = Astro.props;
 ---
 
 <section class="divide-y divide-rule border-y border-rule">
-  {
-    events.map((event) =>
-      (() => {
-        const eventDate = new Date(event.data.date);
-        const isPast = eventDate < new Date();
-        const formattedDate = eventDate.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          timeZone: "UTC",
-        });
-        const dayMonth = eventDate.toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          timeZone: "UTC",
-        });
-        const year = eventDate.getUTCFullYear();
+    {
+        events.map((event, i) =>
+            (() => {
+                const eventDate = new Date(event.date);
+                const isPast = eventDate < new Date();
+                const formattedDate = eventDate.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                    timeZone: "UTC",
+                });
 
-        const content = (
-          <article
-            class:list={[
-              "grid gap-6 py-8 sm:grid-cols-[120px_1fr] sm:gap-10 sm:py-10",
-              isPast ? "opacity-55" : "",
-            ]}
-          >
-            <div class="sm:text-right">
-              <p class="display-tight text-2xl sm:text-3xl font-medium leading-none text-ink">
-                {dayMonth}
-              </p>
-              <p class="mt-1 text-sm italic text-ink-faint">{year}</p>
-            </div>
-            <div>
-              <div class="flex flex-wrap items-baseline gap-3">
-                <h2 class="display-tight text-xl sm:text-2xl font-medium text-ink">
-                  {event.data.title}
-                </h2>
-                {isPast ? (
-                  <span class="eyebrow text-ink-faint">Past</span>
-                ) : null}
-              </div>
-              <p class="mt-2 text-sm text-ink-muted">
-                <span class="italic">{formattedDate}</span>
-                {event.data.time ? (
-                  <>
-                    <span class="mx-2 text-ink-faint" aria-hidden="true">·</span>
-                    {event.data.time}
-                  </>
-                ) : null}
-                <span class="mx-2 text-ink-faint" aria-hidden="true">·</span>
-                {event.data.location}
-              </p>
-              {event.data.address ? (
-                <p class="mt-1 text-sm text-ink-faint">
-                  {event.data.address}
-                </p>
-              ) : null}
-              {event.data.description ? (
-                <p class="mt-4 text-base leading-relaxed text-ink-muted">
-                  {event.data.description}
-                </p>
-              ) : null}
-              {event.data.url && !isPast ? (
-                <span class="mt-4 inline-block eyebrow link-underline text-ink group-hover:text-accent transition">
-                  View details
-                </span>
-              ) : null}
-            </div>
-          </article>
-        );
+                const content = (
+                    <article
+                        class:list={[
+                            "py-10 text-center sm:py-12",
+                            isPast ? "opacity-55" : "",
+                        ]}
+                    >
+                        <p class="eyebrow">
+                            {isPast ? `Past · ${formattedDate}` : formattedDate}
+                        </p>
+                        <h2 class="mt-4 display-tight text-2xl sm:text-3xl font-medium text-ink group-hover:text-accent transition">
+                            {event.title}
+                        </h2>
+                        <p class="mt-3 text-sm text-ink-muted">
+                            {event.time ? (
+                                <>
+                                    {event.time}
+                                    <span
+                                        class="mx-2 text-ink-faint"
+                                        aria-hidden="true"
+                                    >
+                                        ·
+                                    </span>
+                                </>
+                            ) : null}
+                            {event.location}
+                        </p>
+                        {event.address ? (
+                            <p class="mt-1 text-sm text-ink-faint">
+                                {event.address}
+                            </p>
+                        ) : null}
+                        {event.description ? (
+                            <p class="mx-auto mt-4 max-w-xl text-base leading-relaxed text-ink-muted">
+                                {event.description}
+                            </p>
+                        ) : null}
+                        {event.url && !isPast ? (
+                            <span class="mt-6 inline-block eyebrow link-underline text-ink group-hover:text-accent transition">
+                                View details
+                            </span>
+                        ) : null}
+                    </article>
+                );
 
-        return event.data.url ? (
-          <a
-            class="group block transition hover:bg-paper-soft"
-            href={event.data.url}
-            target="_blank"
-            rel="noreferrer"
-            key={event.id}
-          >
-            {content}
-          </a>
-        ) : (
-          <div key={event.id}>{content}</div>
-        );
-      })(),
-    )
-  }
+                return event.url ? (
+                    <a
+                        class="group block transition hover:bg-paper-soft"
+                        href={event.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        key={i}
+                    >
+                        {content}
+                    </a>
+                ) : (
+                    <div key={i}>{content}</div>
+                );
+            })(),
+        )
+    }
 </section>

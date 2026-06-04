@@ -12,21 +12,19 @@ const {
   ogImage: ogImageProp,
   ogType = "website",
 } = Astro.props;
-const home = await getEntry("pages", "home");
-const about = await getEntry("pages", "about");
-const contact = await getEntry("contact", "contact");
-const shopUrl = home?.data.redbubble_url ?? "https://example.com/shop";
-const socials = about?.data.socials ?? [];
-const email = contact?.data.email;
-const books = await getCollection("books");
+const site = await getEntry("site", "site");
+const shopUrl = site?.data.redbubble_url ?? "https://example.com/shop";
+const socials = site?.data.social_links ?? [];
+const email = site?.data.contact_email;
+const books = await getCollection("books", ({ data }) => !data.draft);
 const showBooks = books.length >= 3;
 const currentPath = Astro.url.pathname;
 const subscribed = currentPath.startsWith("/thanks");
 
-const siteDescription = home?.data.intro ?? "Children's book author John Cavanagh.";
+const siteDescription = site?.data.site_tagline ?? "Children's book author John Cavanagh.";
 const description = descriptionProp ?? siteDescription;
 
-const rawOgImage = ogImageProp ?? about?.data.headshot_image;
+const rawOgImage = ogImageProp ?? site?.data.author_headshot_image;
 const ogImageUrl = rawOgImage
   ? imgUrl(rawOgImage, { w: 1200, h: 630, c: "pad", b: "rgb:f8f5ee" })
   : undefined;

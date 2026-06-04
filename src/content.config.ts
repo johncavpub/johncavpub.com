@@ -1,4 +1,5 @@
 import { defineCollection, z } from 'astro:content';
+import { file } from 'astro/loaders';
 
 const books = defineCollection({
 	type: 'content',
@@ -13,61 +14,56 @@ const books = defineCollection({
 			)
 			.optional(),
 		highlight: z.boolean().optional(),
-		amazon_url: z.string().url(),
-		barnes_noble_url: z.string().url(),
+		draft: z.boolean().optional(),
+		amazon_url: z.string().url().optional(),
+		barnes_noble_url: z.string().url().optional(),
 	}),
 });
 
-const pages = defineCollection({
-	type: 'content',
+const site = defineCollection({
+	loader: file("src/content/site.yml"),
 	schema: z.object({
-		title: z.string(),
-		intro: z.string().optional(),
+		author_name: z.string(),
+		site_tagline: z.string(),
+		author_headshot_image: z.string().optional(),
+		author_bio: z.string().optional(),
+		social_links: z
+			.array(z.object({ label: z.string(), url: z.string().url() }))
+			.optional(),
 		redbubble_url: z.string().url().optional(),
 		newsletter_url: z.string().url().optional(),
-		headshot_image: z.string().optional(),
-		socials: z
-			.array(
-				z.object({
-					label: z.string(),
-					url: z.string().url(),
-				})
-			)
-			.optional(),
+		contact_email: z.string().email(),
+		contact_page_intro: z.string().optional(),
+		contact_page_body: z.string().optional(),
+		contact_response_time: z.string().optional(),
 	}),
 });
 
 const events = defineCollection({
-	type: 'content',
-	schema: z.object({
-		title: z.string(),
-		date: z.string(),
-		location: z.string(),
-		address: z.string().optional(),
-		time: z.string().optional(),
-		url: z.string().url().optional(),
-		description: z.string().optional(),
-	}),
+	loader: file("src/content/events.yml"),
+	schema: z.array(
+		z.object({
+			title: z.string(),
+			date: z.string(),
+			location: z.string(),
+			address: z.string().optional(),
+			time: z.string().optional(),
+			url: z.string().url().optional(),
+			description: z.string().optional(),
+		})
+	),
 });
 
 const testimonials = defineCollection({
-	type: 'content',
-	schema: z.object({
-		quote: z.string(),
-		author: z.string(),
-		role: z.string().optional(),
-		source: z.string().optional(),
-	}),
+	loader: file("src/content/testimonials.yml"),
+	schema: z.array(
+		z.object({
+			quote: z.string(),
+			author: z.string(),
+			role: z.string().optional(),
+			source: z.string().optional(),
+		})
+	),
 });
 
-const contact = defineCollection({
-	type: 'content',
-	schema: z.object({
-		title: z.string(),
-		intro: z.string(),
-		email: z.string().email(),
-		response_time: z.string().optional(),
-	}),
-});
-
-export const collections = { books, pages, events, testimonials, contact };
+export const collections = { books, site, events, testimonials };

@@ -25,7 +25,7 @@ npm run preview   # preview production build locally
 │   │   ├── SubscribeForm.astro
 │   │   ├── FooterMeta.astro
 │   │   └── TestimonialsCarousel.vue
-│   ├── content/             # Markdown content (books, events, pages, testimonials, contact)
+│   ├── content/             # YAML files (site.yml, events.yml, testimonials.yml) + books/ folder
 │   ├── layouts/
 │   │   └── Layout.astro
 │   ├── lib/
@@ -42,16 +42,16 @@ npm run preview   # preview production build locally
 
 Schemas live in `src/content.config.ts` and must stay in sync with `public/admin/config.yml`.
 
-| Collection | Type | Key fields |
-|---|---|---|
-| `pages` | file (home.md, about.md) | title, intro, redbubble_url, newsletter_url, headshot_image, socials |
-| `books` | folder | title, cover_image, publish_date, highlight, amazon_url, barnes_noble_url |
-| `events` | folder | title, date, location, address, time, url |
-| `testimonials` | folder | quote, author, role, source |
-| `contact` | file (contact.md) | title, intro, email, response_time |
+| Collection | Type | Source | Key fields |
+|---|---|---|---|
+| `site` | file singleton | `src/content/site.yml` | author_name, site_tagline, author_headshot_image, author_bio, social_links, redbubble_url, newsletter_url, contact_email, contact_page_intro, contact_page_body, contact_response_time |
+| `books` | folder (Markdown) | `src/content/books/` | title, description, cover_image, publish_date, highlight, draft, amazon_url, barnes_noble_url |
+| `events` | file (YAML array) | `src/content/events.yml` | title, date, location, address, time, url, description |
+| `testimonials` | file (YAML array) | `src/content/testimonials.yml` | quote, author, role, source |
 
-- `books.highlight: true` controls homepage display; sorted by `publish_date` (newest first)
-- The "Books" nav link is only shown when there are 3 or more books
+- `books.highlight: true` controls homepage display; `books.draft: true` hides from all pages; sorted by `publish_date` (newest first)
+- The "Books" nav link is only shown when there are 3 or more non-draft books
+- `site` is the single source of truth for all global author/site metadata and contact info — fetched by `Layout.astro` and individual pages
 
 ## Decap CMS & Media
 

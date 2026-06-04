@@ -3,19 +3,17 @@ import { getEntry } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import AboutSplit from "../components/sections/AboutSplit.astro";
 
-const about = await getEntry("pages", "about");
+const site = await getEntry("site", "site");
 
-if (!about) {
-  throw new Error("About page content not found.");
+if (!site) {
+  throw new Error("Site content not found.");
 }
-
-const { Content } = await about.render();
 ---
 
 <Layout
-  title={about.data.title}
+  title="About the Author"
   description="Learn more about John Cavanagh, author of the Riddler Rabbit children's book series."
-  ogImage={about.data.headshot_image}
+  ogImage={site.data.author_headshot_image}
 >
-  <AboutSplit about={about} Content={Content} />
+  <AboutSplit site={site.data} />
 </Layout>

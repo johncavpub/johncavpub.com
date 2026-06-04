@@ -53,22 +53,26 @@ const formattedDate = publishDate
       </div>
       <div class="mt-8 h-px w-12 bg-rule" />
       <div class="mt-8 flex flex-wrap gap-3">
-        <a
-          class="inline-flex items-center justify-center rounded-full bg-ink px-7 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-paper transition hover:bg-accent"
-          href={book.data.amazon_url}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Amazon
-        </a>
-        <a
-          class="inline-flex items-center justify-center rounded-full border border-ink px-7 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-ink transition hover:border-accent hover:text-accent"
-          href={book.data.barnes_noble_url}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Barnes & Noble
-        </a>
+        {book.data.amazon_url && (
+          <a
+            class="inline-flex items-center justify-center rounded-full bg-ink px-7 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-paper transition hover:bg-accent"
+            href={book.data.amazon_url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Amazon
+          </a>
+        )}
+        {book.data.barnes_noble_url && (
+          <a
+            class="inline-flex items-center justify-center rounded-full border border-ink px-7 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-ink transition hover:border-accent hover:text-accent"
+            href={book.data.barnes_noble_url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Barnes & Noble
+          </a>
+        )}
       </div>
     </div>
   </div>
