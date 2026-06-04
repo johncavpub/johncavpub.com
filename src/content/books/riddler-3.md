@@ -3,7 +3,7 @@ title: Riddler 3
 description: He's not your scared bunny no more...
 cover_image: /uploads/riddler3_o87jiz.png
 publish_date: 2027-01-16
-draft: true
+draft: false
 ---
 
 The clue is simple: *Where the meadow meets the hill.* The mission? Anything but.

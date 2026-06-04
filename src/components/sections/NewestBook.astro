@@ -30,6 +30,17 @@ const gridCols =
       ? "grid-cols-2 sm:grid-cols-3"
       : "grid-cols-2 lg:grid-cols-4";
 
+// Cap the grid width so covers stay a sensible size when there are
+// only one or two books, instead of stretching across the section.
+const gridMaxWidth =
+  count === 1
+    ? "max-w-xs"
+    : count === 2
+      ? "max-w-lg"
+      : count === 3
+        ? "max-w-3xl"
+        : "max-w-5xl";
+
 const formatDate = (d?: string) =>
   d
     ? new Date(d).toLocaleDateString("en-US", {
@@ -48,7 +59,8 @@ const formatDate = (d?: string) =>
       </div>
       <div
         class:list={[
-          "grid gap-10 sm:gap-12",
+          "grid gap-10 sm:gap-12 mx-auto",
+          gridMaxWidth,
           single ? "grid-cols-1 justify-items-center" : gridCols,
         ]}
       >

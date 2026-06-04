@@ -28,8 +28,8 @@ const highlightedBooks = books
 
 <Layout title={site.data.author_name} description={site.data.site_tagline}>
     <HomeHero intro={site.data.site_tagline} />
-    <NextEvent events={events} />
     <NewestBook books={highlightedBooks} />
+    <NextEvent events={events} />
     {
         testimonials.length ? (
             <TestimonialsCarousel testimonials={testimonials} />

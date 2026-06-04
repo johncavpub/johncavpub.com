@@ -17,7 +17,7 @@ const shopUrl = site?.data.redbubble_url ?? "https://example.com/shop";
 const socials = site?.data.social_links ?? [];
 const email = site?.data.contact_email;
 const books = await getCollection("books", ({ data }) => !data.draft);
-const showBooks = books.length >= 3;
+const showBooks = books.length >= 2;
 const currentPath = Astro.url.pathname;
 const subscribed = currentPath.startsWith("/thanks");
 

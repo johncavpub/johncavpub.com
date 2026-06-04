@@ -23,7 +23,7 @@ const upcoming = annotated
 
 const books = [...released, ...upcoming].map((b) => b.book);
 
-if (books.length < 3) {
+if (books.length < 2) {
   return Astro.redirect("/");
 }
 ---
