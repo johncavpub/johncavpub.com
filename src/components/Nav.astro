@@ -30,15 +30,16 @@ const navItems: { label: string; href: string; external?: boolean }[] = [
         id="menu-toggle"
         type="button"
         class="sm:hidden inline-flex items-center justify-center rounded-md p-2 text-ink-muted hover:bg-paper-deep hover:text-ink transition"
-        aria-label="Toggle menu"
+        aria-label="Open menu"
+        aria-controls="mobile-menu-overlay"
         aria-expanded="false"
       >
         <svg
-          id="menu-icon"
           class="h-6 w-6"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+          aria-hidden="true"
         >
           <path
             stroke-linecap="round"
@@ -46,26 +47,12 @@ const navItems: { label: string; href: string; external?: boolean }[] = [
             stroke-width="1.5"
             d="M4 7h16M4 12h16M4 17h16"></path>
         </svg>
-        <svg
-          id="close-icon"
-          class="hidden h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
       </button>
     </div>
 
     <nav
-      id="mobile-menu"
       aria-label="Primary"
-      class="hidden sm:flex sm:flex-row sm:justify-center sm:items-center sm:gap-x-8 mt-6 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-ink-muted"
+      class="hidden sm:flex sm:flex-row sm:justify-center sm:items-center sm:gap-x-8 mt-6 text-2xs font-semibold uppercase tracking-eyebrow text-ink-muted"
     >
       {navItems.map((item) => {
         const active = !item.external && isActive(item.href);
@@ -76,20 +63,20 @@ const navItems: { label: string; href: string; external?: boolean }[] = [
             target="_blank"
             rel="noreferrer"
           >
-            {item.label} <span aria-hidden="true" class="text-ink-faint">↗</span>
+            {item.label}
+            <span class="sr-only"> (opens in new tab)</span>
+            <span aria-hidden="true" class="text-ink-faint">↗</span>
           </a>
         ) : (
           <a
-            class:list={[
-              "transition",
-              active ? "text-ink" : "hover:text-ink",
-            ]}
+            class:list={["transition", active ? "text-ink" : "hover:text-ink"]}
             href={item.href}
             aria-current={active ? "page" : undefined}
           >
             <span
               class:list={[
-                active ? "border-b border-ink pb-1" : "border-b border-transparent pb-1",
+                "border-b pb-1",
+                active ? "border-ink" : "border-transparent",
               ]}
             >
               {item.label}
@@ -103,6 +90,9 @@ const navItems: { label: string; href: string; external?: boolean }[] = [
   <!-- Full-screen mobile menu -->
   <div
     id="mobile-menu-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Menu"
     class="fixed inset-0 z-50 hidden bg-paper sm:hidden"
   >
     <div class="flex h-full flex-col">
@@ -123,6 +113,7 @@ const navItems: { label: string; href: string; external?: boolean }[] = [
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            aria-hidden="true"
           >
             <path
               stroke-linecap="round"
@@ -133,8 +124,8 @@ const navItems: { label: string; href: string; external?: boolean }[] = [
         </button>
       </div>
       <nav
-        aria-label="Mobile navigation"
-        class="flex flex-1 flex-col items-center justify-center gap-7 text-base font-semibold uppercase tracking-[0.24em] text-ink"
+        aria-label="Primary"
+        class="flex flex-1 flex-col items-center justify-center gap-7 text-base font-semibold uppercase tracking-eyebrow text-ink"
       >
         {navItems.map((item) =>
           item.external ? (
@@ -144,7 +135,9 @@ const navItems: { label: string; href: string; external?: boolean }[] = [
               target="_blank"
               rel="noreferrer"
             >
-              {item.label} <span aria-hidden="true">↗</span>
+              {item.label}
+              <span class="sr-only"> (opens in new tab)</span>
+              <span aria-hidden="true">↗</span>
             </a>
           ) : (
             <a class="hover:text-ink-muted transition" href={item.href}>
@@ -161,30 +154,58 @@ const navItems: { label: string; href: string; external?: boolean }[] = [
   const menuToggle = document.getElementById("menu-toggle");
   const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
   const mobileClose = document.getElementById("mobile-close");
-  const menuIcon = document.getElementById("menu-icon");
-  const closeIcon = document.getElementById("close-icon");
 
   function openMenu() {
     menuToggle?.setAttribute("aria-expanded", "true");
+    menuToggle?.setAttribute("aria-label", "Close menu");
     mobileMenuOverlay?.classList.remove("hidden");
-    menuIcon?.classList.add("hidden");
-    closeIcon?.classList.remove("hidden");
     document.body.style.overflow = "hidden";
+    mobileClose?.focus();
   }
 
   function closeMenu() {
     menuToggle?.setAttribute("aria-expanded", "false");
+    menuToggle?.setAttribute("aria-label", "Open menu");
     mobileMenuOverlay?.classList.add("hidden");
-    menuIcon?.classList.remove("hidden");
-    closeIcon?.classList.add("hidden");
     document.body.style.overflow = "";
+    menuToggle?.focus();
   }
 
   menuToggle?.addEventListener("click", openMenu);
   mobileClose?.addEventListener("click", closeMenu);
 
-  const mobileLinks = mobileMenuOverlay?.querySelectorAll("a");
-  mobileLinks?.forEach((link) => {
+  document.addEventListener("keydown", (event) => {
+    if (mobileMenuOverlay?.classList.contains("hidden")) return;
+
+    if (event.key === "Escape") {
+      closeMenu();
+      return;
+    }
+
+    if (event.key === "Tab" && mobileMenuOverlay) {
+      const focusable = Array.from(
+        mobileMenuOverlay.querySelectorAll<HTMLElement>(
+          "a[href], button:not([disabled])"
+        )
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey) {
+        if (document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    }
+  });
+
+  mobileMenuOverlay?.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", closeMenu);
   });
 </script>

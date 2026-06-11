@@ -1,77 +1,51 @@
 ---
-import { imgUrl, imgSrcset } from "../../lib/cloudinary";
+import BookCover from "../BookCover.astro";
+import Button from "../Button.astro";
+import Flourish from "../Flourish.astro";
+import { formatDate } from "../../lib/format";
 
 const { book, Content } = Astro.props;
 
-const publishDate = book.data.publish_date
-  ? new Date(book.data.publish_date)
-  : null;
-const formattedDate = publishDate
-  ? publishDate.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      timeZone: "UTC",
-    })
-  : null;
+const formattedDate = formatDate(book.data.publish_date);
 ---
 
 <section class="mx-auto max-w-5xl px-6 pt-10 pb-20 sm:pt-16">
   <div
     class="grid items-start justify-items-center gap-12 sm:gap-20 lg:grid-cols-[minmax(0,280px)_1fr] lg:justify-items-start"
   >
-    <div class="w-full max-w-[260px] overflow-hidden bg-paper-deep aspect-[4/5]">
-      {book.data.cover_image ? (
-        <img
-          class="block h-full w-full object-cover"
-          src={imgUrl(book.data.cover_image, { w: 520, c: "fill" })}
-          srcset={imgSrcset(book.data.cover_image, [320, 520, 720], { c: "fill" })}
-          sizes="(min-width: 1024px) 260px, 80vw"
-          loading="eager"
-          decoding="async"
-          alt={`${book.data.title} cover`}
-        />
-      ) : (
-        <div class="flex h-full w-full items-center justify-center text-center">
-          <span class="px-4 text-sm italic text-ink-faint">Cover coming soon</span>
-        </div>
-      )}
+    <div class="w-full max-w-64">
+      <BookCover
+        title={book.data.title}
+        src={book.data.cover_image}
+        width={520}
+        widths={[320, 520, 720]}
+        sizes="(min-width: 1024px) 260px, 80vw"
+        loading="eager"
+      />
     </div>
     <div class="w-full max-w-xl">
-      <h1
-        class="display-tight text-3xl sm:text-4xl font-medium text-ink"
-      >
+      <h1 class="display-tight text-3xl sm:text-4xl font-medium text-ink">
         {book.data.title}
       </h1>
       {formattedDate ? (
         <p class="mt-3 text-sm italic text-ink-faint">{formattedDate}</p>
       ) : null}
       <div
-        class="mt-8 space-y-5 text-lg leading-relaxed text-ink-muted prose-em:text-ink"
+        class="mt-8 space-y-5 text-lg leading-relaxed text-ink-muted [&_em]:text-ink"
       >
         <Content />
       </div>
-      <div class="mt-8 h-px w-12 bg-rule" />
+      <Flourish align="left" class="mt-8" />
       <div class="mt-8 flex flex-wrap gap-3">
         {book.data.amazon_url && (
-          <a
-            class="inline-flex items-center justify-center rounded-full bg-ink px-7 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-paper transition hover:bg-accent"
-            href={book.data.amazon_url}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <Button href={book.data.amazon_url} external>
             Amazon
-          </a>
+          </Button>
         )}
         {book.data.barnes_noble_url && (
-          <a
-            class="inline-flex items-center justify-center rounded-full border border-ink px-7 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-ink transition hover:border-accent hover:text-accent"
-            href={book.data.barnes_noble_url}
-            target="_blank"
-            rel="noreferrer"
-          >
+          <Button href={book.data.barnes_noble_url} variant="outline" external>
             Barnes & Noble
-          </a>
+          </Button>
         )}
       </div>
     </div>

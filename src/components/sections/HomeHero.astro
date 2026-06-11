@@ -1,14 +1,19 @@
 ---
-const { intro } = Astro.props;
+import Flourish from "../Flourish.astro";
+
+const { siteName = "John Cavanagh", intro } = Astro.props;
 ---
 
-{
-    intro ? (
-        <section class="mx-auto max-w-4xl px-6 pt-12 pb-10 sm:pt-20 sm:pb-16 text-center">
-            <p class="display-tight text-2xl sm:text-3xl md:text-4xl leading-[1.15] font-medium italic text-ink">
-                {intro}
-            </p>
-            <div class="mx-auto mt-10 h-px w-16 bg-rule" />
-        </section>
-    ) : null
-}
+<section class="mx-auto max-w-4xl px-6 pt-12 pb-10 sm:pt-20 sm:pb-16 text-center">
+    <h1 class="sr-only">{siteName}</h1>
+    {
+        intro ? (
+            <>
+                <p class="display-tight text-3xl sm:text-4xl md:text-5xl leading-tight font-medium italic text-ink text-balance">
+                    {intro}
+                </p>
+                <Flourish class="mt-10" />
+            </>
+        ) : null
+    }
+</section>

@@ -1,8 +1,10 @@
 ---
+import Button from "./Button.astro";
+
 const { subscribed = false } = Astro.props;
 ---
 
-<section class="w-full bg-ink text-paper">
+<section aria-label="Newsletter" class="w-full bg-ink text-paper">
   <div class="mx-auto flex max-w-3xl flex-col items-center gap-6 px-6 pt-16 pb-12 sm:pt-20 sm:pb-14 text-center">
     <p class="eyebrow text-paper/60">Newsletter</p>
     {
@@ -45,12 +47,7 @@ const { subscribed = false } = Astro.props;
               placeholder="you@email.com"
               required
             />
-            <button
-              class="inline-flex items-center justify-center rounded-full bg-paper px-7 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-ink transition hover:bg-paper-deep"
-              type="submit"
-            >
-              Subscribe
-            </button>
+            <Button type="submit" variant="inverse">Subscribe</Button>
           </form>
         </>
       )

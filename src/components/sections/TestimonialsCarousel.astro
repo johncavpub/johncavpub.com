@@ -17,9 +17,7 @@ const { testimonials } = Astro.props;
 
 <section class="border-t border-rule bg-paper-soft">
   <div class="mx-auto max-w-5xl px-6 py-16 sm:py-20">
-    <div class="mb-10 text-center">
-      <p class="eyebrow">Praise</p>
-    </div>
+    <h2 class="eyebrow mb-10 text-center">Praise</h2>
     <TestimonialsCarouselVue client:load testimonials={testimonials} />
   </div>
 </section>

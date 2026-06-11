@@ -1,76 +1,52 @@
 ---
-import { imgUrl, imgSrcset } from "../../lib/cloudinary";
+import BookCover from "../BookCover.astro";
+import { orderBooks } from "../../lib/books";
+import { formatDate } from "../../lib/format";
 
 const { books } = Astro.props;
+
+const ordered = orderBooks(books ?? []);
 ---
 
 <section class="divide-y divide-rule border-y border-rule">
   {
-    books.map((book) =>
-      (() => {
-        const publishDate = book.data.publish_date
-          ? new Date(book.data.publish_date)
-          : null;
-        const isFuture = publishDate ? publishDate > new Date() : false;
-        const formattedDate = publishDate
-          ? publishDate.toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-              timeZone: "UTC",
-            })
-          : null;
-        return (
-          <a
-            class="group block py-8 sm:py-10 transition hover:bg-paper-soft"
-            href={`/books/${book.slug}`}
-            key={book.id}
-          >
-            <article class="grid gap-6 sm:grid-cols-[160px_1fr] sm:gap-10 px-2">
-              <div class="overflow-hidden bg-paper-deep aspect-[4/5]">
-                {book.data.cover_image ? (
-                  <img
-                    class="block h-full w-full object-cover transition duration-500 ease-out group-hover:scale-[1.02]"
-                    src={imgUrl(book.data.cover_image, { w: 400, c: "fill" })}
-                    srcset={imgSrcset(book.data.cover_image, [320, 480, 640], { c: "fill" })}
-                    sizes="160px"
-                    loading="lazy"
-                    decoding="async"
-                    alt={`${book.data.title} cover`}
-                  />
-                ) : (
-                  <div class="flex h-full w-full items-center justify-center text-center">
-                    <span class="px-3 text-xs italic text-ink-faint">
-                      Cover coming soon
-                    </span>
-                  </div>
-                )}
-              </div>
-              <div>
-                <div class="flex flex-wrap items-baseline gap-3">
-                  <h2 class="display-tight text-2xl sm:text-3xl font-medium text-ink group-hover:text-accent transition">
-                    {book.data.title}
-                  </h2>
-                  {isFuture ? (
-                    <span class="eyebrow text-accent">Coming soon</span>
-                  ) : null}
-                </div>
-                {formattedDate ? (
-                  <p class="mt-1 text-sm italic text-ink-faint">
-                    {formattedDate}
-                  </p>
-                ) : null}
-                <p class="mt-4 text-base leading-relaxed text-ink-muted">
-                  {book.data.description}
-                </p>
-                <span class="mt-5 inline-block eyebrow link-underline text-ink group-hover:text-accent transition">
-                  Read more
-                </span>
-              </div>
-            </article>
-          </a>
-        );
-      })(),
-    )
+    ordered.map(({ book, comingSoon }) => (
+      <a
+        class="group block py-8 sm:py-10 transition hover:bg-paper-soft"
+        href={`/books/${book.slug}`}
+      >
+        <article class="grid gap-6 sm:grid-cols-[160px_1fr] sm:gap-10 px-2">
+          <BookCover
+            title={book.data.title}
+            src={book.data.cover_image}
+            width={400}
+            widths={[320, 480, 640]}
+            sizes="160px"
+            hover
+          />
+          <div>
+            <div class="flex flex-wrap items-baseline gap-3">
+              <h2 class="display-tight text-2xl sm:text-3xl font-medium text-ink group-hover:text-accent transition">
+                {book.data.title}
+              </h2>
+              {comingSoon ? (
+                <span class="eyebrow text-accent">Coming soon</span>
+              ) : null}
+            </div>
+            {formatDate(book.data.publish_date) ? (
+              <p class="mt-1 text-sm italic text-ink-faint">
+                {formatDate(book.data.publish_date)}
+              </p>
+            ) : null}
+            <p class="mt-4 text-base leading-relaxed text-ink-muted">
+              {book.data.description}
+            </p>
+            <span class="mt-5 inline-block eyebrow link-underline text-ink group-hover:text-accent transition">
+              Read more
+            </span>
+          </div>
+        </article>
+      </a>
+    ))
   }
 </section>

@@ -1,73 +1,56 @@
 ---
 import { Icon } from "astro-icon/components";
+import Flourish from "../Flourish.astro";
 import { imgUrl, imgSrcset } from "../../lib/cloudinary";
+import { socialIconName } from "../../lib/social";
 
 const { site } = Astro.props;
-
-const iconMap: Record<string, string> = {
-  instagram: "cib:instagram",
-  tiktok: "cib:tiktok",
-};
-
-const getIconName = (label: string) => {
-  if (!label) return "mdi:link-variant";
-  const key = label.toLowerCase().replace(/\s+/g, "");
-  return iconMap[key] ?? "mdi:link-variant";
-};
 ---
 
-<section class="mx-auto max-w-5xl px-6 pt-10 pb-20 sm:pt-16">
-  <div class="mb-10 text-center">
-    <h1 class="display-tight text-4xl sm:text-5xl font-medium text-ink">
-      About the Author
-    </h1>
+<div
+  class="grid items-start justify-items-center gap-10 sm:gap-14 lg:grid-cols-[minmax(0,320px)_1fr] lg:justify-items-start"
+>
+  <div class="w-full max-w-xs">
+    {
+      site.author_headshot_image ? (
+        <div class="cover-frame overflow-hidden bg-paper-deep">
+          <img
+            class="block w-full"
+            src={imgUrl(site.author_headshot_image, { w: 640 })}
+            srcset={imgSrcset(site.author_headshot_image, [320, 480, 640, 960])}
+            sizes="(min-width: 1024px) 320px, 80vw"
+            loading="eager"
+            decoding="async"
+            alt={`${site.author_name} headshot`}
+          />
+        </div>
+      ) : null
+    }
   </div>
-
-  <div
-    class="grid items-start justify-items-center gap-10 sm:gap-14 lg:grid-cols-[minmax(0,320px)_1fr] lg:justify-items-start"
-  >
-    <div class="w-full max-w-xs">
-      {
-        site.author_headshot_image ? (
-          <div class="overflow-hidden bg-paper-deep">
-            <img
-              class="block w-full"
-              src={imgUrl(site.author_headshot_image, { w: 640 })}
-              srcset={imgSrcset(site.author_headshot_image, [320, 480, 640, 960])}
-              sizes="(min-width: 1024px) 320px, 80vw"
-              loading="eager"
-              decoding="async"
-              alt={`${site.author_name} headshot`}
-            />
-          </div>
-        ) : null
-      }
+  <div class="w-full max-w-xl">
+    <div class="space-y-5 text-lg leading-relaxed text-ink">
+      {site.author_bio?.split('\n\n').map((p: string) => <p>{p}</p>)}
     </div>
-    <div class="w-full max-w-xl">
-      <div class="space-y-5 text-lg leading-relaxed text-ink">
-        {site.author_bio?.split('\n\n').map((p: string) => <p>{p}</p>)}
-      </div>
-      {
-        site.social_links?.length ? (
-          <>
-            <div class="mt-8 h-px w-12 bg-rule" />
-            <div class="mt-6 flex flex-wrap gap-3">
-              {site.social_links.map((social: { label: string; url: string }) => (
-                <a
-                  key={social.url}
-                  href={social.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  class="inline-flex items-center gap-2 rounded-full border border-rule px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted transition hover:border-ink hover:text-ink"
-                >
-                  <Icon name={getIconName(social.label)} class="h-4 w-4" />
-                  {social.label}
-                </a>
-              ))}
-            </div>
-          </>
-        ) : null
-      }
-    </div>
+    {
+      site.social_links?.length ? (
+        <>
+          <Flourish align="left" class="mt-8" />
+          <nav aria-label="Social links" class="mt-6 flex flex-wrap gap-3">
+            {site.social_links.map((social: { label: string; url: string }) => (
+              <a
+                href={social.url}
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex items-center gap-2 rounded-full border border-rule px-4 py-2 text-xs font-semibold uppercase tracking-caps text-ink-muted transition hover:border-ink hover:text-ink"
+              >
+                <Icon name={socialIconName(social.label)} class="h-4 w-4" />
+                {social.label}
+                <span class="sr-only"> (opens in new tab)</span>
+              </a>
+            ))}
+          </nav>
+        </>
+      ) : null
+    }
   </div>
-</section>
+</div>
