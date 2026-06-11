@@ -1,0 +1,22 @@
+---
+/** Decorative section divider — hairline rules with a small accent diamond. */
+interface Props {
+  align?: "center" | "left";
+  class?: string;
+}
+
+const { align = "center", class: className } = Astro.props;
+---
+
+<div
+  class:list={[
+    "flex items-center gap-3",
+    align === "center" && "justify-center",
+    className,
+  ]}
+  aria-hidden="true"
+>
+  <span class="h-px w-12 bg-rule"></span>
+  <span class="h-1.5 w-1.5 rotate-45 bg-accent-soft"></span>
+  {align === "center" && <span class="h-px w-12 bg-rule"></span>}
+</div>

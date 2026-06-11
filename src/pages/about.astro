@@ -1,6 +1,7 @@
 ---
 import { getEntry } from "astro:content";
 import Layout from "../layouts/Layout.astro";
+import PageHeader from "../components/PageHeader.astro";
 import AboutSplit from "../components/sections/AboutSplit.astro";
 
 const site = await getEntry("site", "site");
@@ -15,5 +16,8 @@ if (!site) {
   description="Learn more about John Cavanagh, author of the Riddler Rabbit children's book series."
   ogImage={site.data.author_headshot_image}
 >
-  <AboutSplit site={site.data} />
+  <section class="mx-auto max-w-5xl px-6 pt-10 pb-20 sm:pt-16">
+    <PageHeader title="About the Author" />
+    <AboutSplit site={site.data} />
+  </section>
 </Layout>

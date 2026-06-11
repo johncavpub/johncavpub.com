@@ -39,7 +39,7 @@
       >
         <div class="text-center">
           <span
-            class="block text-5xl leading-none text-ink-faint/70 font-serif"
+            class="block text-5xl leading-none text-accent-soft font-serif"
             aria-hidden="true"
             >“</span
           >
@@ -64,7 +64,7 @@
         type="button"
         :class="
           active === index
-            ? 'w-6 bg-ink'
+            ? 'w-6 bg-accent'
             : 'w-1.5 bg-ink-faint/50 hover:bg-ink-faint'
         "
         class="h-1.5 rounded-full transition-all"

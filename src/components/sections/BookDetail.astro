@@ -1,6 +1,7 @@
 ---
 import BookCover from "../BookCover.astro";
 import Button from "../Button.astro";
+import Flourish from "../Flourish.astro";
 import { formatDate } from "../../lib/format";
 
 const { book, Content } = Astro.props;
@@ -34,7 +35,7 @@ const formattedDate = formatDate(book.data.publish_date);
       >
         <Content />
       </div>
-      <div class="mt-8 h-px w-12 bg-rule" aria-hidden="true"></div>
+      <Flourish align="left" class="mt-8" />
       <div class="mt-8 flex flex-wrap gap-3">
         {book.data.amazon_url && (
           <Button href={book.data.amazon_url} external>
