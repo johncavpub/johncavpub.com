@@ -1,5 +1,10 @@
 <template>
-  <div class="relative">
+  <div
+    class="relative"
+    role="region"
+    aria-roledescription="carousel"
+    aria-label="Testimonials"
+  >
     <button
       @click="prev"
       type="button"
@@ -22,14 +27,15 @@
       @touchstart="handleTouchStart"
       @touchmove="handleTouchMove"
       @touchend="handleTouchEnd"
-      class="relative flex justify-center overflow-hidden py-6"
-      style="min-height: 240px"
+      class="relative flex min-h-60 justify-center overflow-hidden py-6"
     >
       <article
         v-for="(testimonial, index) in testimonials"
         :key="index"
         :style="getSlideStyle(index)"
-        class="absolute w-full max-w-[420px] px-6 transition-all duration-500 ease-out"
+        :aria-hidden="index !== active"
+        :aria-label="`Testimonial ${index + 1} of ${testimonials.length}`"
+        class="absolute w-full max-w-md px-6 transition-all duration-500 ease-out"
       >
         <div class="text-center">
           <span
@@ -40,7 +46,7 @@
           <p class="mt-2 text-lg sm:text-xl italic leading-relaxed text-ink">
             {{ testimonial.quote }}
           </p>
-          <p class="mt-6 text-xs uppercase tracking-[0.22em] text-ink-muted">
+          <p class="mt-6 text-xs uppercase tracking-caps text-ink-muted">
             — {{ testimonial.author
             }}<span v-if="testimonial.role" class="text-ink-faint">
               , {{ testimonial.role }}</span
@@ -63,6 +69,7 @@
         "
         class="h-1.5 rounded-full transition-all"
         :aria-label="`Go to testimonial ${index + 1}`"
+        :aria-current="active === index ? 'true' : undefined"
       />
     </div>
   </div>

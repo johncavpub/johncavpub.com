@@ -1,0 +1,64 @@
+---
+import { imgUrl, imgSrcset } from "../lib/cloudinary";
+
+interface Props {
+  title: string;
+  src?: string;
+  /** Base rendered width for the `src` fallback. */
+  width: number;
+  /** Candidate widths for the responsive srcset. */
+  widths: number[];
+  sizes: string;
+  loading?: "lazy" | "eager";
+  /** Zoom the cover slightly when an ancestor `.group` is hovered. */
+  hover?: boolean;
+  /** Show the "Coming soon" badge over the cover. */
+  comingSoon?: boolean;
+}
+
+const {
+  title,
+  src,
+  width,
+  widths,
+  sizes,
+  loading = "lazy",
+  hover = false,
+  comingSoon = false,
+} = Astro.props;
+
+// Covers share the 4/5 ratio, so the intrinsic height follows the width.
+const height = Math.round(width * 1.25);
+---
+
+<div class="relative overflow-hidden bg-paper-deep aspect-cover">
+  {
+    src ? (
+      <img
+        class:list={[
+          "block h-full w-full object-cover",
+          hover && "transition duration-500 ease-out group-hover:scale-102",
+        ]}
+        src={imgUrl(src, { w: width, c: "fill" })}
+        srcset={imgSrcset(src, widths, { c: "fill" })}
+        sizes={sizes}
+        width={width}
+        height={height}
+        loading={loading}
+        decoding="async"
+        alt={`${title} cover`}
+      />
+    ) : (
+      <div class="flex h-full w-full items-center justify-center text-center">
+        <span class="px-4 text-xs italic text-ink-faint">Cover coming soon</span>
+      </div>
+    )
+  }
+  {
+    comingSoon ? (
+      <span class="absolute left-3 top-3 rounded-full bg-paper/95 px-3 py-1 text-2xs font-semibold uppercase tracking-caps text-accent shadow-sm">
+        Coming soon
+      </span>
+    ) : null
+  }
+</div>

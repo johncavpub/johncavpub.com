@@ -17,17 +17,12 @@ const eventsEntry = await getEntry("events", "events");
 const events = eventsEntry?.data ?? [];
 const testimonialsEntry = await getEntry("testimonials", "testimonials");
 const testimonials = testimonialsEntry?.data ?? [];
-const highlightedBooks = books
-    .filter((book) => book.data.highlight)
-    .sort(
-        (a, b) =>
-            (b.data.publish_date ? Date.parse(b.data.publish_date) : 0) -
-            (a.data.publish_date ? Date.parse(a.data.publish_date) : 0),
-    );
+// NewestBook handles display ordering (released newest-first, then upcoming).
+const highlightedBooks = books.filter((book) => book.data.highlight);
 ---
 
 <Layout title={site.data.author_name} description={site.data.site_tagline}>
-    <HomeHero intro={site.data.site_tagline} />
+    <HomeHero siteName={site.data.author_name} intro={site.data.site_tagline} />
     <NewestBook books={highlightedBooks} />
     <NextEvent events={events} />
     {

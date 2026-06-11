@@ -1,0 +1,41 @@
+---
+type Variant = "primary" | "outline" | "inverse";
+
+interface Props {
+  href?: string;
+  type?: "button" | "submit";
+  variant?: Variant;
+  external?: boolean;
+}
+
+const { href, type = "button", variant = "primary", external = false } = Astro.props;
+
+const variantClasses: Record<Variant, string> = {
+  primary: "bg-ink text-paper hover:bg-accent",
+  outline: "border border-ink text-ink hover:border-accent hover:text-accent",
+  inverse: "bg-paper text-ink hover:bg-paper-deep",
+};
+
+const classes = [
+  "inline-flex items-center justify-center rounded-full px-7 py-3",
+  "text-sm font-semibold uppercase tracking-caps transition",
+  variantClasses[variant],
+];
+
+const externalAttrs = external
+  ? { target: "_blank", rel: "noreferrer" }
+  : {};
+---
+
+{
+  href ? (
+    <a class:list={classes} href={href} {...externalAttrs}>
+      <slot />
+      {external ? <span class="sr-only"> (opens in new tab)</span> : null}
+    </a>
+  ) : (
+    <button class:list={classes} type={type}>
+      <slot />
+    </button>
+  )
+}

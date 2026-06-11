@@ -1,0 +1,22 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  eyebrow?: string;
+}
+
+const { title, subtitle, eyebrow } = Astro.props;
+---
+
+<header class="mb-10 text-center">
+  {eyebrow ? <p class="eyebrow">{eyebrow}</p> : null}
+  <h1
+    class:list={[
+      "display-tight text-4xl sm:text-5xl font-medium text-ink",
+      eyebrow ? "mt-4" : "",
+    ]}
+  >
+    {title}
+  </h1>
+  {subtitle ? <p class="mt-4 text-base italic text-ink-muted">{subtitle}</p> : null}
+</header>

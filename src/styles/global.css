@@ -15,6 +15,14 @@
 
 	--font-serif: "Source Serif 4", ui-serif, Georgia, Cambria, "Times New Roman",
 		Times, serif;
+
+	/* Small-caps type roles */
+	--text-2xs: 0.6875rem;
+	--tracking-caps: 0.18em;
+	--tracking-eyebrow: 0.24em;
+
+	/* Book covers share one portrait ratio */
+	--aspect-cover: 4 / 5;
 }
 
 @layer base {
@@ -45,10 +53,10 @@
 	}
 
 	.eyebrow {
-		font-size: 0.6875rem;
+		font-size: var(--text-2xs);
 		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.24em;
+		letter-spacing: var(--tracking-eyebrow);
 		color: var(--color-ink-faint);
 	}
 

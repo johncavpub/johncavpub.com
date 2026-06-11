@@ -1,29 +1,22 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import Button from "../components/Button.astro";
 ---
 
 <Layout
   title="Page not found"
   description="The page you're looking for doesn't exist."
 >
-  <div class="mx-auto max-w-2xl px-6 pt-10 pb-20 sm:pt-16">
-    <header class="mb-10 text-center">
-      <p class="eyebrow">404</p>
-      <h1 class="mt-4 display-tight text-4xl sm:text-5xl font-medium text-ink">
-        Page not found
-      </h1>
-      <p class="mt-4 text-base italic text-ink-muted">
-        The page you're looking for may have moved or never existed.
-      </p>
-    </header>
+  <section class="mx-auto max-w-2xl px-6 pt-10 pb-20 sm:pt-16">
+    <PageHeader
+      eyebrow="404"
+      title="Page not found"
+      subtitle="The page you're looking for may have moved or never existed."
+    />
 
     <div class="text-center">
-      <a
-        href="/"
-        class="inline-flex items-center justify-center rounded-full bg-ink px-7 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-paper transition hover:bg-ink/90"
-      >
-        Back home
-      </a>
+      <Button href="/">Back home</Button>
     </div>
-  </div>
+  </section>
 </Layout>

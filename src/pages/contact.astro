@@ -1,6 +1,7 @@
 ---
-import Layout from "../layouts/Layout.astro";
 import { getEntry } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import PageHeader from "../components/PageHeader.astro";
 
 const site = await getEntry("site", "site");
 if (!site) throw new Error("Site content not found.");
@@ -8,15 +9,8 @@ const contact = site.data;
 ---
 
 <Layout title="Contact" description={contact.contact_page_intro}>
-  <div class="mx-auto max-w-2xl px-6 pt-10 pb-20 sm:pt-16">
-    <header class="mb-10 text-center">
-      <h1 class="display-tight text-4xl sm:text-5xl font-medium text-ink">
-        Get in Touch
-      </h1>
-      <p class="mt-4 text-base italic text-ink-muted">
-        {contact.contact_page_intro}
-      </p>
-    </header>
+  <section class="mx-auto max-w-2xl px-6 pt-10 pb-20 sm:pt-16">
+    <PageHeader title="Get in Touch" subtitle={contact.contact_page_intro} />
 
     <div class="space-y-8">
       <div class="border-y border-rule py-8 text-center">
@@ -31,9 +25,9 @@ const contact = site.data;
 
       {
         contact.contact_page_body ? (
-          <div class="prose prose-slate max-w-none text-center text-base leading-relaxed text-ink-muted">
-            <p>{contact.contact_page_body}</p>
-          </div>
+          <p class="text-center text-base leading-relaxed text-ink-muted">
+            {contact.contact_page_body}
+          </p>
         ) : null
       }
 
@@ -45,5 +39,5 @@ const contact = site.data;
         ) : null
       }
     </div>
-  </div>
+  </section>
 </Layout>
