@@ -4,8 +4,8 @@ description: He's not your scared bunny no more...
 cover_image: /uploads/riddler3_o87jiz.png
 publish_date: 2027-01-16
 draft: true
-amazon_url: amazon.com
-barnes_noble_url: amazon.com
+amazon_url: https://www.amazon.com/
+barnes_noble_url: https://www.amazon.com/
 ---
 
 The clue is simple: *Where the meadow meets the hill.* The mission? Anything but.
