@@ -1,16 +1,21 @@
 site:
-  author_name: "John Cavanagh"
-  site_tagline: "Dad. Author. Helping children face fear with courage."
-  author_headshot_image: "/uploads/Screenshot_2026-06-03_at_12.08.15_AM_pyhv4c.png"
-  author_bio: "John Cavanagh is a self-published author who is 29 years-old. Cavanagh has struggled with mental health his entire life, and was inspired by his own struggles to tell stories that inspire bravery, courage and kindness in young adults and children. He currently resides in Long Island, New York with his wife, Kiana, and his son, Liam."
   social_links:
     - label: Instagram
       url: https://www.instagram.com/johncavpub
     - label: TikTok
       url: https://www.tiktok.com/@john_cavanagh
-  redbubble_url: "https://www.redbubble.com/people/johncav96/shop"
-  newsletter_url: "https://example.com/newsletter"
-  contact_email: "johncavpub@gmail.com"
-  contact_page_intro: "For inquiries, collaborations, or press."
-  contact_page_body: "Whether you're interested in a speaking engagement, media interview, or have questions about my books, I'd love to hear from you."
-  contact_response_time: "I typically respond within 1-2 business days."
+  newsletter_url: https://example.com/newsletter
+  author_headshot_image: /uploads/IMG_7743_ctwht7.jpg
+  contact_response_time: I typically respond within 1-2 business days.
+  redbubble_url: https://buildingbravekids.myshopify.com/
+  contact_page_body: Whether you're interested in a speaking engagement, media
+    interview, or have questions about my books, I'd love to hear from you.
+  author_bio: John Cavanagh is a self-published author who is 29 years-old.
+    Cavanagh has struggled with mental health his entire life, and was inspired
+    by his own struggles to tell stories that inspire bravery, courage and
+    kindness in young adults and children. He currently resides in Long Island,
+    New York with his wife, Kiana, and his son, Liam.
+  site_tagline: Dad. Author. Helping children face fear with courage.
+  contact_page_intro: For inquiries, collaborations, or press.
+  contact_email: johncavpub@gmail.com
+  author_name: John Cavanagh
